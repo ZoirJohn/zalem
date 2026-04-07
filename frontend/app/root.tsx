@@ -19,6 +19,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <title>Welcome</title>
       </head>
       <body>
         <TooltipProvider>{children}</TooltipProvider>
@@ -32,6 +33,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return <Outlet />
+}
+
+export function HydrateFallback() {
+  return <main className="h-screen">Loading...</main>
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

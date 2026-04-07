@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { NavUser } from "~/components/nav-user"
+import { NavUser } from "~/components/NavUser"
 import { Label } from "~/components/ui/label"
 import {
   Sidebar,
@@ -19,9 +19,16 @@ import {
 } from "~/components/ui/sidebar"
 import { Switch } from "~/components/ui/switch"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { InboxIcon, FileIcon, SentIcon, ArchiveIcon, Delete02Icon, CommandIcon } from "@hugeicons/core-free-icons"
+import {
+  InboxIcon,
+  FileIcon,
+  SentIcon,
+  ArchiveIcon,
+  Delete02Icon,
+  CommandIcon,
+} from "@hugeicons/core-free-icons"
+import LogoIcon from "../assets/img/zz.avif"
 
-// This is sample data
 const data = {
   user: {
     name: "shadcn",
@@ -32,41 +39,31 @@ const data = {
     {
       title: "Inbox",
       url: "#",
-      icon: (
-        <HugeiconsIcon icon={InboxIcon} strokeWidth={2} />
-      ),
+      icon: <HugeiconsIcon icon={InboxIcon} strokeWidth={2} />,
       isActive: true,
     },
     {
       title: "Drafts",
       url: "#",
-      icon: (
-        <HugeiconsIcon icon={FileIcon} strokeWidth={2} />
-      ),
+      icon: <HugeiconsIcon icon={FileIcon} strokeWidth={2} />,
       isActive: false,
     },
     {
       title: "Sent",
       url: "#",
-      icon: (
-        <HugeiconsIcon icon={SentIcon} strokeWidth={2} />
-      ),
+      icon: <HugeiconsIcon icon={SentIcon} strokeWidth={2} />,
       isActive: false,
     },
     {
       title: "Junk",
       url: "#",
-      icon: (
-        <HugeiconsIcon icon={ArchiveIcon} strokeWidth={2} />
-      ),
+      icon: <HugeiconsIcon icon={ArchiveIcon} strokeWidth={2} />,
       isActive: false,
     },
     {
       title: "Trash",
       url: "#",
-      icon: (
-        <HugeiconsIcon icon={Delete02Icon} strokeWidth={2} />
-      ),
+      icon: <HugeiconsIcon icon={Delete02Icon} strokeWidth={2} />,
       isActive: false,
     },
   ],
@@ -180,11 +177,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0">
                 <a href="#">
                   <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                    <HugeiconsIcon icon={CommandIcon} strokeWidth={2} className="size-4" />
+                    {/* <HugeiconsIcon
+                      icon={CommandIcon}
+                      strokeWidth={2}
+                      className="size-4"
+                    /> */}
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">Acme Inc</span>
-                    <span className="truncate text-xs">Enterprise</span>
+                    <span className="truncate font-medium">Kaminayu Kamtarin Inc.</span>
+                    <span className="truncate text-xs">Personal</span>
                   </div>
                 </a>
               </SidebarMenuButton>
@@ -259,7 +260,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <span className="ml-auto text-xs">{mail.date}</span>
                   </div>
                   <span className="font-medium">{mail.subject}</span>
-                  <span className="line-clamp-2 w-[260px] text-xs whitespace-break-spaces">
+                  <span className="line-clamp-2 w-65 text-xs whitespace-break-spaces">
                     {mail.teaser}
                   </span>
                 </a>
