@@ -36,7 +36,11 @@ export default function App() {
 }
 
 export function HydrateFallback() {
-  return <main className="h-screen">Loading...</main>
+  return (
+    <main className="flex h-screen items-center justify-center">
+      <div className="loader"></div>
+    </main>
+  )
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
