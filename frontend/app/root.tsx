@@ -19,7 +19,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
-        <title>Welcome</title>
+		<title>Home</title>
       </head>
       <body>
         <TooltipProvider>{children}</TooltipProvider>

@@ -28,6 +28,7 @@ import {
   CommandIcon,
 } from "@hugeicons/core-free-icons"
 import LogoIcon from "../assets/img/zz.avif"
+import { NavLink } from "react-router"
 
 const data = {
   user: {
@@ -175,7 +176,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0">
-                <a href="#">
+                <NavLink to="/">
                   <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                     {/* <HugeiconsIcon
                       icon={CommandIcon}
@@ -187,7 +188,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <span className="truncate font-medium">Kaminayu Kamtarin Inc.</span>
                     <span className="truncate text-xs">Personal</span>
                   </div>
-                </a>
+                </NavLink>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>

@@ -6,7 +6,7 @@ export function Logo() {
       <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
         <img src={LogoIcon} alt="logo" />
       </div>
-      Kaminayu Kamtarin Inc.
+      Zalem Inc.
     </>
   )
 }
