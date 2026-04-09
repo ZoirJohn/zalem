@@ -15,7 +15,7 @@ import {
   FieldSeparator,
 } from "~/components/ui/field"
 import { Input } from "~/components/ui/input"
-import { NavLink } from "react-router"
+import { Link } from "react-router"
 
 export function LoginForm({
   className,
@@ -80,7 +80,7 @@ export function LoginForm({
               <Field>
                 <Button type="submit">Login</Button>
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <NavLink to="/signup">Sign up</NavLink>
+                  Don&apos;t have an account? <Link to="/signup">Sign up</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
