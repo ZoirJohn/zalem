@@ -2,6 +2,9 @@
   command = "react-router build"
   publish = "build/client"
 
+[build.environment]
+  NETLIFY_REACT_ROUTER_SPA = "true"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
