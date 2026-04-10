@@ -8,4 +8,9 @@ export default defineConfig({
   build: {
     cssCodeSplit: false,
   },
+  server:{
+	hmr:{
+		overlay:false
+	}
+  }
 })
