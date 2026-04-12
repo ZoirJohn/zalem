@@ -25,8 +25,9 @@ import {
   Delete02Icon,
   CommandIcon,
 } from "@hugeicons/core-free-icons"
-import LogoIcon from "../assets/img/zz.avif"
-import { NavLink } from "react-router"
+import { useState } from "react"
+import { Link } from "react-router"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
 const data = {
   user: {
@@ -37,31 +38,31 @@ const data = {
   navMain: [
     {
       title: "Inbox",
-      url: "#",
+      url: "inbox",
       icon: <HugeiconsIcon icon={InboxIcon} strokeWidth={2} />,
       isActive: true,
     },
     {
       title: "Drafts",
-      url: "#",
+      url: "drafts",
       icon: <HugeiconsIcon icon={FileIcon} strokeWidth={2} />,
       isActive: false,
     },
     {
       title: "Sent",
-      url: "#",
+      url: "sent",
       icon: <HugeiconsIcon icon={SentIcon} strokeWidth={2} />,
       isActive: false,
     },
     {
       title: "Junk",
-      url: "#",
+      url: "junk",
       icon: <HugeiconsIcon icon={ArchiveIcon} strokeWidth={2} />,
       isActive: false,
     },
     {
       title: "Trash",
-      url: "#",
+      url: "trash",
       icon: <HugeiconsIcon icon={Delete02Icon} strokeWidth={2} />,
       isActive: false,
     },
@@ -151,123 +152,57 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  // Note: I'm using state to show active item.
-  // IRL you should use the url/router.
-  const [activeItem, setActiveItem] = React.useState(data.navMain[0])
-  const [mails, setMails] = React.useState(data.mails)
-  const { setOpen } = useSidebar()
+  const [activeItem, setActiveItem] = useState(data.navMain[0])
+  const [mails, setMails] = useState(data.mails)
+  const { open } = useSidebar()
 
   return (
     <Sidebar
       collapsible="icon"
-      className="overflow-hidden *:data-[sidebar=sidebar]:flex-row"
+      className="hidden flex-1 overflow-hidden md:flex"
       {...props}
     >
-      {/* This is the first sidebar */}
-      {/* We disable collapsible and adjust width to icon. */}
-      {/* This will make the sidebar appear as icons. */}
-      <Sidebar
-        collapsible="none"
-        className="w-[calc(var(--sidebar-width-icon)+1px)]! border-r"
+      <SidebarHeader
+        className={"gap-3.5  p-4" + `${open ? "" : " invisible"}`}
       >
-        <SidebarHeader>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0">
-                <NavLink to="/">
-                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                    {/* <HugeiconsIcon
-                      icon={CommandIcon}
-                      strokeWidth={2}
-                      className="size-4"
-                    /> */}
-                  </div>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">Kaminayu Kamtarin Inc.</span>
-                    <span className="truncate text-xs">Personal</span>
-                  </div>
-                </NavLink>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarHeader>
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupContent className="px-1.5 md:px-0">
-              <SidebarMenu>
-                {data.navMain.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton
-                      tooltip={{
-                        children: item.title,
-                        hidden: false,
-                      }}
-                      onClick={() => {
-                        setActiveItem(item)
-                        const mail = data.mails.sort(() => Math.random() - 0.5)
-                        setMails(
-                          mail.slice(
-                            0,
-                            Math.max(5, Math.floor(Math.random() * 10) + 1)
-                          )
-                        )
-                        setOpen(true)
-                      }}
-                      isActive={activeItem?.title === item.title}
-                      className="px-2.5 md:px-2"
-                    >
-                      {item.icon}
-                      <span>{item.title}</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-        <SidebarFooter>
-          <NavUser user={data.user} />
-        </SidebarFooter>
-      </Sidebar>
-
-      {/* This is the second sidebar */}
-      {/* We disable collapsible and let it fill remaining space */}
-      <Sidebar collapsible="none" className="hidden flex-1 md:flex">
-        <SidebarHeader className="gap-3.5 border-b p-4">
-          <div className="flex w-full items-center justify-between">
-            <div className="text-base font-medium text-foreground">
-              {activeItem?.title}
-            </div>
-            <Label className="flex items-center gap-2 text-sm">
-              <span>Unreads</span>
-              <Switch className="shadow-none" />
-            </Label>
+        <div className="flex w-full items-center justify-between">
+          <div className="text-base font-medium text-foreground">
+            {activeItem?.title}
           </div>
-          <SidebarInput placeholder="Type to search..." />
-        </SidebarHeader>
-        <SidebarContent>
-          <SidebarGroup className="px-0">
-            <SidebarGroupContent>
-              {mails.map((mail) => (
-                <a
-                  href="#"
-                  key={mail.email}
-                  className="flex flex-col items-start gap-2 border-b p-4 text-sm leading-tight whitespace-nowrap last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                >
+          <Label className="flex items-center gap-2 text-sm">
+            <span>Unreads</span>
+            <Switch className="shadow-none" />
+          </Label>
+        </div>
+        <SidebarInput placeholder="Type to search..." />
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup className="px-0">
+          <SidebarGroupContent>
+            {mails.map((mail) => (
+              <Link
+                to="/"
+                key={mail.email}
+                className="flex items-center justify-center gap-4 border-t py-4 text-sm leading-tight whitespace-nowrap last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+              >
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col gap-2">
                   <div className="flex w-full items-center gap-2">
-                    <span>{mail.name}</span>{" "}
+                    <span>{mail.name}</span>
                     <span className="ml-auto text-xs">{mail.date}</span>
                   </div>
-                  <span className="font-medium">{mail.subject}</span>
                   <span className="line-clamp-2 w-65 text-xs whitespace-break-spaces">
                     {mail.teaser}
                   </span>
-                </a>
-              ))}
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-      </Sidebar>
+                </div>
+              </Link>
+            ))}
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
     </Sidebar>
   )
 }

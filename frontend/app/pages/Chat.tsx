@@ -1,5 +1,6 @@
+import { Outlet, useLocation } from "react-router"
 import { AppSidebar } from "~/components/AppSidebar"
-import ProtectedRoute from "~/components/ProtectedRoute"
+import ProtectedPage from "~/components/ProtectedPage"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -16,8 +17,10 @@ import {
 } from "~/components/ui/sidebar"
 
 export default function Dashboard() {
+  const location = useLocation()
+  const currentCrumb = location.pathname.split("/").at(2)
   return (
-    <ProtectedRoute>
+    <ProtectedPage>
       <SidebarProvider
         style={
           {
@@ -36,25 +39,18 @@ export default function Dashboard() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">All Inboxes</BreadcrumbLink>
+                  <BreadcrumbLink href="/chat">Chat</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Inbox</BreadcrumbPage>
+                  <BreadcrumbPage className="capitalize">{currentCrumb}</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </header>
-          <div className="flex flex-1 flex-col gap-4 p-4">
-            {Array.from({ length: 24 }).map((_, index) => (
-              <div
-                key={index}
-                className="aspect-video h-12 w-full rounded-lg bg-muted/50"
-              />
-            ))}
-          </div>
+         <Outlet/>
         </SidebarInset>
       </SidebarProvider>
-    </ProtectedRoute>
+    </ProtectedPage>
   )
 }

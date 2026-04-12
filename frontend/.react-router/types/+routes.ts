@@ -23,12 +23,17 @@ type Pages = {
   "/chat": {
     params: {};
   };
+  "/chat/:userId": {
+    params: {
+      "userId": string;
+    };
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/login" | "/signup" | "/chat";
+    page: "/" | "/login" | "/signup" | "/chat" | "/chat/:userId";
   };
   "./pages/Home.tsx": {
     id: "pages/Home";
@@ -42,9 +47,17 @@ type RouteFiles = {
     id: "pages/Signup";
     page: "/signup";
   };
-  "./pages/Dashboard.tsx": {
-    id: "pages/Dashboard";
+  "./pages/Chat.tsx": {
+    id: "pages/Chat";
+    page: "/chat" | "/chat/:userId";
+  };
+  "./components/Chat/Main.tsx": {
+    id: "components/Chat/Main";
     page: "/chat";
+  };
+  "./components/Chat/Inbox.tsx": {
+    id: "components/Chat/Inbox";
+    page: "/chat/:userId";
   };
 };
 
@@ -53,5 +66,7 @@ type RouteModules = {
   "pages/Home": typeof import("./app/./pages/Home.tsx");
   "pages/Login": typeof import("./app/./pages/Login.tsx");
   "pages/Signup": typeof import("./app/./pages/Signup.tsx");
-  "pages/Dashboard": typeof import("./app/./pages/Dashboard.tsx");
+  "pages/Chat": typeof import("./app/./pages/Chat.tsx");
+  "components/Chat/Main": typeof import("./app/./components/Chat/Main.tsx");
+  "components/Chat/Inbox": typeof import("./app/./components/Chat/Inbox.tsx");
 };
