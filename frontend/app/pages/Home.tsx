@@ -54,7 +54,7 @@ export default function Home() {
           <nav>
             <ul className="flex gap-4 font-light uppercase md:gap-6 lg:gap-12">
               <li>
-                <NavLink to="/chat/inbox">Chat</NavLink>
+                <NavLink to="/chat">Chat</NavLink>
               </li>
               <li>
                 <NavLink to="/blog">Blog</NavLink>

@@ -5,14 +5,10 @@ import { Label } from "~/components/ui/label"
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
   SidebarInput,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   useSidebar,
 } from "~/components/ui/sidebar"
 import { Switch } from "~/components/ui/switch"
@@ -162,9 +158,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       className="hidden flex-1 overflow-hidden md:flex"
       {...props}
     >
-      <SidebarHeader
-        className={"gap-3.5  p-4" + `${open ? "" : " invisible"}`}
-      >
+      <SidebarHeader className={"gap-3.5 p-4" + `${open ? "" : " invisible"}`}>
         <div className="flex w-full items-center justify-between">
           <div className="text-base font-medium text-foreground">
             {activeItem?.title}

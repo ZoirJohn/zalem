@@ -9,7 +9,7 @@ export default [
   route("login", "./pages/Login.tsx"),
   route("signup", "./pages/Signup.tsx"),
   route("chat", "./pages/Chat.tsx", [
-    index("./components/Chat/Main.tsx"),
+    index("./components/Chat/ChatRoom.tsx"),
     route(":userId", "./components/Chat/Inbox.tsx"),
   ]),
 ] satisfies RouteConfig
