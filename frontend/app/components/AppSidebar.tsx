@@ -24,6 +24,7 @@ import {
 import { useState } from "react"
 import { Link } from "react-router"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import clsx from "clsx"
 
 const data = {
   user: {
@@ -150,15 +151,16 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [activeItem, setActiveItem] = useState(data.navMain[0])
   const [mails, setMails] = useState(data.mails)
-  const { open } = useSidebar()
-
+  const { isMobile, open } = useSidebar()
   return (
     <Sidebar
       collapsible="icon"
       className="hidden flex-1 overflow-hidden md:flex"
       {...props}
     >
-      <SidebarHeader className={"gap-3.5 p-4" + `${open ? "" : " invisible"}`}>
+      <SidebarHeader
+        className={clsx("gap-3.5 p-4", !open && !isMobile && "invisible")}
+      >
         <div className="flex w-full items-center justify-between">
           <div className="text-base font-medium text-foreground">
             {activeItem?.title}
@@ -177,13 +179,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <Link
                 to={"/chat" + `/${mail.email}`}
                 key={mail.email}
-                className="flex justify-center gap-4 border-t py-4 text-sm leading-tight whitespace-nowrap last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                className={clsx(
+                  "flex items-center justify-center gap-4 border-t text-sm leading-tight whitespace-nowrap last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                  open && "py-4",
+                  !open && "py-2"
+                )}
               >
-                <Avatar>
+                <Avatar className={clsx(open && "size-12", !open && "size-8")}>
                   <AvatarImage src="https://github.com/shadcn.png" />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
-                <div className="flex flex-col gap-2">
+                <div
+                  className={clsx(open && "flex flex-col", !open && "hidden")}
+                >
                   <div className="flex w-full items-center gap-2">
                     <span>{mail.name}</span>
                     <span className="ml-auto text-xs">{mail.date}</span>
