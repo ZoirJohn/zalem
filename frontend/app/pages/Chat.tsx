@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from "react-router"
+import { Link, Outlet, useLocation } from "react-router"
 import { AppSidebar } from "~/components/AppSidebar"
 import ProtectedPage from "~/components/ProtectedPage"
 import {
@@ -39,16 +39,20 @@ export default function Dashboard() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="/chat">Chat</BreadcrumbLink>
+                  <BreadcrumbLink asChild>
+                    <Link to="/chat">Chat</Link>
+                  </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="capitalize">{currentCrumb}</BreadcrumbPage>
+                  <BreadcrumbPage className="capitalize">
+                    {currentCrumb}
+                  </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </header>
-         <Outlet/>
+          <Outlet />
         </SidebarInset>
       </SidebarProvider>
     </ProtectedPage>

@@ -175,9 +175,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupContent>
             {mails.map((mail) => (
               <Link
-                to="/"
+                to={"/chat" + `/${mail.email}`}
                 key={mail.email}
-                className="flex items-center justify-center gap-4 border-t py-4 text-sm leading-tight whitespace-nowrap last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                className="flex justify-center gap-4 border-t py-4 text-sm leading-tight whitespace-nowrap last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               >
                 <Avatar>
                   <AvatarImage src="https://github.com/shadcn.png" />
