@@ -180,17 +180,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 to={"/chat" + `/${mail.email}`}
                 key={mail.email}
                 className={clsx(
-                  "flex items-center justify-center gap-4 border-t text-sm leading-tight whitespace-nowrap last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                  "flex items-center justify-center gap-2 border-t text-sm leading-tight whitespace-nowrap last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground [475px]:gap-4",
                   open && "py-4",
                   !open && "py-2"
                 )}
               >
-                <Avatar className={clsx(open && "size-12", !open && "size-8")}>
+                <Avatar className={clsx(open && "size-12", !open && "size-8","size-8")}>
                   <AvatarImage src="https://github.com/shadcn.png" />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <div
-                  className={clsx(open && "flex flex-col", !open && "hidden")}
+                  className={clsx(open && "flex flex-col", !open && "hidden","gap-1")}
                 >
                   <div className="flex w-full items-center gap-2">
                     <span>{mail.name}</span>
