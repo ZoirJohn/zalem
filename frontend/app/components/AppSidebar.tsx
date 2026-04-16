@@ -1,7 +1,5 @@
 import * as React from "react"
 
-import { NavUser } from "~/components/NavUser"
-import { Label } from "~/components/ui/label"
 import {
   Sidebar,
   SidebarContent,
@@ -11,7 +9,6 @@ import {
   SidebarInput,
   useSidebar,
 } from "~/components/ui/sidebar"
-import { Switch } from "~/components/ui/switch"
 import { HugeiconsIcon } from "@hugeicons/react"
 import {
   InboxIcon,
@@ -19,12 +16,13 @@ import {
   SentIcon,
   ArchiveIcon,
   Delete02Icon,
-  CommandIcon,
+  Cancel01Icon,
 } from "@hugeicons/core-free-icons"
 import { useState } from "react"
 import { Link } from "react-router"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import clsx from "clsx"
+import { Button } from "./ui/button"
 
 const data = {
   user: {
@@ -151,7 +149,7 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [activeItem, setActiveItem] = useState(data.navMain[0])
   const [mails, setMails] = useState(data.mails)
-  const { isMobile, open } = useSidebar()
+  const { isMobile, open, setOpenMobile } = useSidebar()
   return (
     <Sidebar
       collapsible="icon"
@@ -165,10 +163,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <div className="text-base font-medium text-foreground">
             {activeItem?.title}
           </div>
-          <Label className="flex items-center gap-2 text-sm">
-            <span>Unreads</span>
-            <Switch className="shadow-none" />
-          </Label>
+          <Button
+            variant="ghost"
+            className="md:hidden"
+            onClick={() => setOpenMobile(false)}
+          >
+            <HugeiconsIcon icon={Cancel01Icon} className="size-6" />
+          </Button>
         </div>
         <SidebarInput placeholder="Type to search..." />
       </SidebarHeader>
@@ -185,12 +186,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   !open && "py-2"
                 )}
               >
-                <Avatar className={clsx(open && "size-12", !open && "size-8","size-8")}>
+                <Avatar
+                  className={clsx(
+                    open && "size-12",
+                    !open && "size-8",
+                    "size-8"
+                  )}
+                >
                   <AvatarImage src="https://github.com/shadcn.png" />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <div
-                  className={clsx(open && "flex flex-col", !open && "hidden","gap-1")}
+                  className={clsx(
+                    open && "flex flex-col",
+                    !open && "hidden",
+                    "gap-1"
+                  )}
                 >
                   <div className="flex w-full items-center gap-2">
                     <span>{mail.name}</span>
