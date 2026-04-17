@@ -10,7 +10,6 @@ export class ChatController {
 	private init() {
 		this.socket.on("connection", (ws) => {
 			ws.on("message", (message: string) => {
-				console.log(JSON.parse(message));
 				this.broadcastMessage(message);
 			});
 		});
@@ -20,7 +19,7 @@ export class ChatController {
 			client.send(
 				JSON.stringify({
 					id: crypto.randomUUID(),
-					message: JSON.parse(message),
+					...JSON.parse(message),
 				}),
 			);
 		});

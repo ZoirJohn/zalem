@@ -1,3 +1,5 @@
+import { ArrowLeft01Icon } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
 import { Link, Outlet, useLocation } from "react-router"
 import { AppSidebar } from "~/components/AppSidebar"
 import ProtectedPage from "~/components/ProtectedPage"
@@ -40,10 +42,14 @@ export default function Dashboard() {
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink asChild>
-                    <Link to="/chat">Chat</Link>
+                    <Link to="/chat">
+                      <HugeiconsIcon
+                        icon={ArrowLeft01Icon}
+                        className="size-6"
+                      />
+                    </Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
                   <BreadcrumbPage className="capitalize">
                     {currentCrumb}
