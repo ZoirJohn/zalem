@@ -57,15 +57,15 @@ importers:
       '@types/passport':
         specifier: ^1.0.17
         version: 1.0.17
+      '@types/passport-google-oauth20':
+        specifier: ^2.0.17
+        version: 2.0.17
       '@types/passport-local':
         specifier: ^1.0.38
         version: 1.0.38
       '@types/ws':
         specifier: ^8.18.1
         version: 8.18.1
-      passport-local:
-        specifier: ^1.0.0
-        version: 1.0.0
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
@@ -269,8 +269,17 @@ packages:
   '@types/node@25.5.2':
     resolution: {integrity: sha512-tO4ZIRKNC+MDWV4qKVZe3Ql/woTnmHDr5JD8UI5hn2pwBrHEwOEMZK7WlNb5RKB6EoJ02gwmQS9OrjuFnZYdpg==}
 
+  '@types/oauth@0.9.6':
+    resolution: {integrity: sha512-H9TRCVKBNOhZZmyHLqFt9drPM9l+ShWiqqJijU1B8P3DX3ub84NjxDuy+Hjrz+fEca5Kwip3qPMKNyiLgNJtIA==}
+
+  '@types/passport-google-oauth20@2.0.17':
+    resolution: {integrity: sha512-MHNOd2l7gOTCn3iS+wInPQMiukliAUvMpODO3VlXxOiwNEMSyzV7UNvAdqxSN872o8OXx1SqPDVT6tLW74AtqQ==}
+
   '@types/passport-local@1.0.38':
     resolution: {integrity: sha512-nsrW4A963lYE7lNTv9cr5WmiUD1ibYJvWrpE13oxApFsRt77b0RdtZvKbCdNIY4v/QZ6TRQWaDDEwV1kCTmcXg==}
+
+  '@types/passport-oauth2@1.8.0':
+    resolution: {integrity: sha512-6//z+4orIOy/g3zx17HyQ71GSRK4bs7Sb+zFasRoc2xzlv7ZCJ+vkDBYFci8U6HY+or6Zy7ajf4mz4rK7nsWJQ==}
 
   '@types/passport-strategy@0.2.38':
     resolution: {integrity: sha512-GC6eMqqojOooq993Tmnmp7AUTbbQSgilyvpCYQjT+H6JfG/g6RGc7nXEniZlp0zyKJ0WUdOiZWLBZft9Yug1uA==}
@@ -692,10 +701,6 @@ packages:
 
   passport-google-oauth20@2.0.0:
     resolution: {integrity: sha512-KSk6IJ15RoxuGq7D1UKK/8qKhNfzbLeLrG3gkLZ7p4A6DBCcv7xpyQwuXtWdpyR0+E0mwkpjY1VfPOhxQrKzdQ==}
-    engines: {node: '>= 0.4.0'}
-
-  passport-local@1.0.0:
-    resolution: {integrity: sha512-9wCE6qKznvf9mQYYbgJ3sVOHmCWoUNMVFoZzNoznmISbhnNNPhN9xfY3sLmScHMetEJeoY7CXwfhCe7argfQow==}
     engines: {node: '>= 0.4.0'}
 
   passport-oauth2@1.8.0:
@@ -1128,11 +1133,27 @@ snapshots:
     dependencies:
       undici-types: 7.18.2
 
+  '@types/oauth@0.9.6':
+    dependencies:
+      '@types/node': 25.5.2
+
+  '@types/passport-google-oauth20@2.0.17':
+    dependencies:
+      '@types/express': 5.0.6
+      '@types/passport': 1.0.17
+      '@types/passport-oauth2': 1.8.0
+
   '@types/passport-local@1.0.38':
     dependencies:
       '@types/express': 5.0.6
       '@types/passport': 1.0.17
       '@types/passport-strategy': 0.2.38
+
+  '@types/passport-oauth2@1.8.0':
+    dependencies:
+      '@types/express': 5.0.6
+      '@types/oauth': 0.9.6
+      '@types/passport': 1.0.17
 
   '@types/passport-strategy@0.2.38':
     dependencies:
@@ -1569,10 +1590,6 @@ snapshots:
   passport-google-oauth20@2.0.0:
     dependencies:
       passport-oauth2: 1.8.0
-
-  passport-local@1.0.0:
-    dependencies:
-      passport-strategy: 1.0.0
 
   passport-oauth2@1.8.0:
     dependencies:
