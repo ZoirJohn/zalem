@@ -1,221 +1,155 @@
 import * as React from "react"
 
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarHeader,
-  SidebarInput,
-  useSidebar,
+    Sidebar,
+    SidebarContent,
+    SidebarGroup,
+    SidebarGroupContent,
+    SidebarHeader,
+    SidebarInput,
+    useSidebar,
 } from "~/components/ui/sidebar"
 import { HugeiconsIcon } from "@hugeicons/react"
-import {
-  InboxIcon,
-  FileIcon,
-  SentIcon,
-  ArchiveIcon,
-  Delete02Icon,
-  Cancel01Icon,
-} from "@hugeicons/core-free-icons"
-import { useState } from "react"
+import { Cancel01Icon } from "@hugeicons/core-free-icons"
 import { Link } from "react-router"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import clsx from "clsx"
 import { Button } from "./ui/button"
+import { useMemo, useState } from "react"
 
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
+const mails = [
     {
-      title: "Inbox",
-      url: "inbox",
-      icon: <HugeiconsIcon icon={InboxIcon} strokeWidth={2} />,
-      isActive: true,
+        name: "William Smith",
+        email: "williamsmith@example.com",
+        subject: "Meeting Tomorrow",
+        date: "09:34 AM",
+        teaser: "Hi team, just a reminder about our meeting tomorrow at 10 AM.\nPlease come prepared with your project updates.",
     },
     {
-      title: "Drafts",
-      url: "drafts",
-      icon: <HugeiconsIcon icon={FileIcon} strokeWidth={2} />,
-      isActive: false,
+        name: "Alice Smith",
+        email: "alicesmith@example.com",
+        subject: "Re: Project Update",
+        date: "Yesterday",
+        teaser: "Thanks for the update. The progress looks great so far.\nLet's schedule a call to discuss the next steps.",
     },
     {
-      title: "Sent",
-      url: "sent",
-      icon: <HugeiconsIcon icon={SentIcon} strokeWidth={2} />,
-      isActive: false,
+        name: "Bob Johnson",
+        email: "bobjohnson@example.com",
+        subject: "Weekend Plans",
+        date: "2 days ago",
+        teaser: "Hey everyone! I'm thinking of organizing a team outing this weekend.\nWould you be interested in a hiking trip or a beach day?",
     },
     {
-      title: "Junk",
-      url: "junk",
-      icon: <HugeiconsIcon icon={ArchiveIcon} strokeWidth={2} />,
-      isActive: false,
+        name: "Emily Davis",
+        email: "emilydavis@example.com",
+        subject: "Re: Question about Budget",
+        date: "2 days ago",
+        teaser: "I've reviewed the budget numbers you sent over.\nCan we set up a quick call to discuss some potential adjustments?",
     },
     {
-      title: "Trash",
-      url: "trash",
-      icon: <HugeiconsIcon icon={Delete02Icon} strokeWidth={2} />,
-      isActive: false,
-    },
-  ],
-  mails: [
-    {
-      name: "William Smith",
-      email: "williamsmith@example.com",
-      subject: "Meeting Tomorrow",
-      date: "09:34 AM",
-      teaser:
-        "Hi team, just a reminder about our meeting tomorrow at 10 AM.\nPlease come prepared with your project updates.",
+        name: "Michael Wilson",
+        email: "michaelwilson@example.com",
+        subject: "Important Announcement",
+        date: "1 week ago",
+        teaser: "Please join us for an all-hands meeting this Friday at 3 PM.\nWe have some exciting news to share about the company's future.",
     },
     {
-      name: "Alice Smith",
-      email: "alicesmith@example.com",
-      subject: "Re: Project Update",
-      date: "Yesterday",
-      teaser:
-        "Thanks for the update. The progress looks great so far.\nLet's schedule a call to discuss the next steps.",
+        name: "Sarah Brown",
+        email: "sarahbrown@example.com",
+        subject: "Re: Feedback on Proposal",
+        date: "1 week ago",
+        teaser: "Thank you for sending over the proposal. I've reviewed it and have some thoughts.\nCould we schedule a meeting to discuss my feedback in detail?",
     },
     {
-      name: "Bob Johnson",
-      email: "bobjohnson@example.com",
-      subject: "Weekend Plans",
-      date: "2 days ago",
-      teaser:
-        "Hey everyone! I'm thinking of organizing a team outing this weekend.\nWould you be interested in a hiking trip or a beach day?",
+        name: "David Lee",
+        email: "davidlee@example.com",
+        subject: "New Project Idea",
+        date: "1 week ago",
+        teaser: "I've been brainstorming and came up with an interesting project concept.\nDo you have time this week to discuss its potential impact and feasibility?",
     },
     {
-      name: "Emily Davis",
-      email: "emilydavis@example.com",
-      subject: "Re: Question about Budget",
-      date: "2 days ago",
-      teaser:
-        "I've reviewed the budget numbers you sent over.\nCan we set up a quick call to discuss some potential adjustments?",
+        name: "Olivia Wilson",
+        email: "oliviawilson@example.com",
+        subject: "Vacation Plans",
+        date: "1 week ago",
+        teaser: "Just a heads up that I'll be taking a two-week vacation next month.\nI'll make sure all my projects are up to date before I leave.",
     },
     {
-      name: "Michael Wilson",
-      email: "michaelwilson@example.com",
-      subject: "Important Announcement",
-      date: "1 week ago",
-      teaser:
-        "Please join us for an all-hands meeting this Friday at 3 PM.\nWe have some exciting news to share about the company's future.",
+        name: "James Martin",
+        email: "jamesmartin@example.com",
+        subject: "Re: Conference Registration",
+        date: "1 week ago",
+        teaser: "I've completed the registration for the upcoming tech conference.\nLet me know if you need any additional information from my end.",
     },
     {
-      name: "Sarah Brown",
-      email: "sarahbrown@example.com",
-      subject: "Re: Feedback on Proposal",
-      date: "1 week ago",
-      teaser:
-        "Thank you for sending over the proposal. I've reviewed it and have some thoughts.\nCould we schedule a meeting to discuss my feedback in detail?",
+        name: "Sophia White",
+        email: "sophiawhite@example.com",
+        subject: "Team Dinner",
+        date: "1 week ago",
+        teaser: "To celebrate our recent project success, I'd like to organize a team dinner.\nAre you available next Friday evening? Please let me know your preferences.",
     },
-    {
-      name: "David Lee",
-      email: "davidlee@example.com",
-      subject: "New Project Idea",
-      date: "1 week ago",
-      teaser:
-        "I've been brainstorming and came up with an interesting project concept.\nDo you have time this week to discuss its potential impact and feasibility?",
-    },
-    {
-      name: "Olivia Wilson",
-      email: "oliviawilson@example.com",
-      subject: "Vacation Plans",
-      date: "1 week ago",
-      teaser:
-        "Just a heads up that I'll be taking a two-week vacation next month.\nI'll make sure all my projects are up to date before I leave.",
-    },
-    {
-      name: "James Martin",
-      email: "jamesmartin@example.com",
-      subject: "Re: Conference Registration",
-      date: "1 week ago",
-      teaser:
-        "I've completed the registration for the upcoming tech conference.\nLet me know if you need any additional information from my end.",
-    },
-    {
-      name: "Sophia White",
-      email: "sophiawhite@example.com",
-      subject: "Team Dinner",
-      date: "1 week ago",
-      teaser:
-        "To celebrate our recent project success, I'd like to organize a team dinner.\nAre you available next Friday evening? Please let me know your preferences.",
-    },
-  ],
-}
+]
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [activeItem, setActiveItem] = useState(data.navMain[0])
-  const [mails, setMails] = useState(data.mails)
-  const { isMobile, open, setOpenMobile } = useSidebar()
-  return (
-    <Sidebar
-      collapsible="icon"
-      className="hidden flex-1 overflow-hidden md:flex"
-      {...props}
-    >
-      <SidebarHeader
-        className={clsx("gap-3.5 p-4", !open && !isMobile && "invisible")}
-      >
-        <div className="flex w-full items-center justify-between">
-          <div className="text-base font-medium text-foreground">
-            {activeItem?.title}
-          </div>
-          <Button
-            variant="ghost"
-            className="md:hidden"
-            onClick={() => setOpenMobile(false)}
-          >
-            <HugeiconsIcon icon={Cancel01Icon} className="size-6" />
-          </Button>
-        </div>
-        <SidebarInput placeholder="Type to search..." />
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup className="px-0">
-          <SidebarGroupContent>
-            {mails.map((mail) => (
-              <Link
-                to={"/chat" + `/${mail.email}`}
-                key={mail.email}
-                className={clsx(
-                  "flex items-center justify-center gap-2 border-t text-sm leading-tight whitespace-nowrap last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground [475px]:gap-4",
-                  open && "py-4",
-                  !open && "py-2"
-                )}
-              >
-                <Avatar
-                  className={clsx(
-                    open && "size-12",
-                    !open && "size-8",
-                    "size-8"
-                  )}
-                >
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <div
-                  className={clsx(
-                    open && "flex flex-col",
-                    !open && "hidden",
-                    "gap-1"
-                  )}
-                >
-                  <div className="flex w-full items-center gap-2">
-                    <span>{mail.name}</span>
-                    <span className="ml-auto text-xs">{mail.date}</span>
-                  </div>
-                  <span className="line-clamp-2 w-65 text-xs whitespace-break-spaces">
-                    {mail.teaser}
-                  </span>
+    const { isMobile, open, setOpenMobile } = useSidebar()
+    const [value, setValue] = useState("")
+    const filteredMails = useMemo(
+        () => mails.filter((mail) => mail.name.toLowerCase().includes(value.toLowerCase())),
+        [value]
+    )
+    return (
+        <Sidebar collapsible="icon" className="hidden flex-1 overflow-hidden md:flex" {...props}>
+            <SidebarHeader className={clsx("gap-3.5 p-4", !open && !isMobile && "invisible")}>
+                <div className="flex w-full items-center justify-between">
+                    <div className="text-base font-medium text-foreground">Messages</div>
+                    <Button variant="ghost" className="md:hidden" onClick={() => setOpenMobile(false)}>
+                        <HugeiconsIcon icon={Cancel01Icon} className="size-6" />
+                    </Button>
                 </div>
-              </Link>
-            ))}
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
-  )
+                <SidebarInput
+                    placeholder="Type to search..."
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                />
+            </SidebarHeader>
+            <SidebarContent>
+                <SidebarGroup className="px-0">
+                    <SidebarGroupContent>
+                        {filteredMails.map((mail) => (
+                            <Link
+                                to={"/chat" + `/${mail.email}`}
+                                key={mail.email}
+                                className={clsx(
+                                    "flex items-center justify-center gap-2 border-t text-sm leading-tight whitespace-nowrap last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground [475px]:gap-4",
+                                    open && "py-4",
+                                    !open && "py-2"
+                                )}
+                                onClick={() => setOpenMobile(false)}
+                            >
+                                <Avatar className={clsx(open && "size-12", !open && "size-8", "size-8")}>
+                                    <AvatarImage src="https://github.com/shadcn.png" />
+                                    <AvatarFallback>CN</AvatarFallback>
+                                </Avatar>
+                                <div
+                                    className={clsx(
+                                        open && !isMobile && "flex flex-col",
+                                        !open && !isMobile && "hidden",
+                                        "gap-1"
+                                    )}
+                                >
+                                    <div className="flex w-full items-center gap-2">
+                                        <span>{mail.name}</span>
+                                        <span className="ml-auto text-xs">{mail.date}</span>
+                                    </div>
+                                    <span className="line-clamp-2 w-65 text-xs whitespace-break-spaces">
+                                        {mail.teaser}
+                                    </span>
+                                </div>
+                            </Link>
+                        ))}
+                    </SidebarGroupContent>
+                </SidebarGroup>
+            </SidebarContent>
+        </Sidebar>
+    )
 }

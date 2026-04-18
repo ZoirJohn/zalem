@@ -74,7 +74,7 @@ export default function ChatRoom(props: ChatRoomProps) {
     }
 
     return (
-        <section className="flex h-[calc(100vh-65px)] flex-col items-stretch p-3 sm:p-6">
+        <section className="flex h-[calc(100dvh-65px)] flex-col items-stretch p-3">
             <ScrollArea className="flex h-[calc(100%-65px)] w-full flex-col rounded-none border-none">
                 <ScrollBar orientation="vertical" />
                 {messages.map((message) => (
