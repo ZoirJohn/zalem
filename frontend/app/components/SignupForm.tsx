@@ -18,7 +18,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
             confirmPassword: "",
         },
         onSubmit: ({ value }) => {
-            if (value.password !== value.confirmPassword) console.log("Error")
             console.log(value)
         },
     })
@@ -96,6 +95,14 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                                 <Field className="grid gap-4 sm:grid-cols-2">
                                     <form.Field
                                         name="password"
+                                        validators={{
+                                            onChange: ({ value, fieldApi }) => {
+                                                const confirmPassword = fieldApi.form.getFieldValue("confirmPassword")
+                                                if (confirmPassword && value !== confirmPassword) {
+                                                    fieldApi.state.meta.errors = ["Passwords do not match"]
+                                                }
+                                            },
+                                        }}
                                         children={(field) => {
                                             return (
                                                 <Field>
@@ -138,17 +145,25 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                                 </Field>
                                 <FieldDescription>Must be at least 8 characters long.</FieldDescription>
                             </Field>
-                            <Field>
-                                <Button type="submit">Create Account</Button>
-                                <FieldDescription className="text-center">
-                                    Already have an account? <NavLink to="/login">Sign in</NavLink>
-                                </FieldDescription>
-                            </Field>
+                            <form.Subscribe
+                                selector={(state) => [state.canSubmit]}
+                                children={([canSubmit]) => {
+                                    return (
+                                        <Field>
+                                            <Button type="submit" disabled={!canSubmit}>
+                                                Create Account
+                                            </Button>
+                                            <FieldDescription className="text-center">
+                                                Already have an account? <NavLink to="/login">Sign in</NavLink>
+                                            </FieldDescription>
+                                        </Field>
+                                    )
+                                }}
+                            ></form.Subscribe>
                         </FieldGroup>
                     </form>
                 </CardContent>
             </Card>
-           
         </div>
     )
 }
