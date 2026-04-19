@@ -8,6 +8,26 @@ import { useForm } from "@tanstack/react-form"
 import Facebook from "~/assets/img/facebook.svg"
 import Google from "~/assets/img/google.svg"
 import type { SubmitEventHandler } from "react"
+import * as zod from "zod"
+
+const userSchema = zod
+    .object({
+        username: zod.string(),
+        email: zod.string().email(),
+        password: zod
+            .string()
+            .min(7)
+            .max(32)
+            .regex(/[A-Z]/, { message: "Must contain an uppercase letter" })
+            .regex(/[a-z]/, { message: "Must contain a lowercase letter" })
+            .regex(/[0-9]/, { message: "Must contain a number" })
+            .regex(/[^A-Za-z0-9]/, { message: "Must contain a special character" }),
+        confirmPassword: zod.string(),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+    })
 
 export function SignupForm({ className, ...props }: React.ComponentProps<"div">) {
     const form = useForm({
@@ -20,12 +40,16 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
         onSubmit: ({ value }) => {
             console.log(value)
         },
+        validators: {
+            onChange: userSchema,
+        },
     })
     const submit: SubmitEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault()
         e.stopPropagation()
         form.handleSubmit()
     }
+
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>
@@ -52,6 +76,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                             <form.Field
                                 name="username"
                                 children={(field) => {
+                                    console.log(field.state.meta)
                                     return (
                                         <Field>
                                             <FieldLabel htmlFor={field.name}>Full Name</FieldLabel>
@@ -64,7 +89,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                                                 onChange={(e) => field.handleChange(e.target.value)}
                                                 placeholder="Full Name"
                                                 autoComplete="name"
-                                                required
                                             />
                                         </Field>
                                     )
@@ -85,7 +109,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                                                 onChange={(e) => field.handleChange(e.target.value)}
                                                 placeholder="email@example.com"
                                                 autoComplete="email"
-                                                required
                                             />
                                         </Field>
                                     )
@@ -95,14 +118,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                                 <Field className="grid gap-4 sm:grid-cols-2">
                                     <form.Field
                                         name="password"
-                                        validators={{
-                                            onChange: ({ value, fieldApi }) => {
-                                                const confirmPassword = fieldApi.form.getFieldValue("confirmPassword")
-                                                if (confirmPassword && value !== confirmPassword) {
-                                                    fieldApi.state.meta.errors = ["Passwords do not match"]
-                                                }
-                                            },
-                                        }}
                                         children={(field) => {
                                             return (
                                                 <Field>
@@ -115,7 +130,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                                                         onBlur={field.handleBlur}
                                                         onChange={(e) => field.handleChange(e.target.value)}
                                                         autoComplete="new-password"
-                                                        required
                                                     />
                                                 </Field>
                                             )
@@ -136,14 +150,12 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                                                         onBlur={field.handleBlur}
                                                         onChange={(e) => field.handleChange(e.target.value)}
                                                         autoComplete="current-password"
-                                                        required
                                                     />
                                                 </Field>
                                             )
                                         }}
                                     ></form.Field>
                                 </Field>
-                                <FieldDescription>Must be at least 8 characters long.</FieldDescription>
                             </Field>
                             <form.Subscribe
                                 selector={(state) => [state.canSubmit]}
