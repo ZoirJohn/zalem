@@ -1,7 +1,7 @@
 import { cn } from "~/lib/utils"
 import { Button } from "~/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card"
-import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from "~/components/ui/field"
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldSeparator } from "~/components/ui/field"
 import { Input } from "~/components/ui/input"
 import { NavLink } from "react-router"
 import { useForm } from "@tanstack/react-form"
@@ -12,11 +12,11 @@ import * as zod from "zod"
 
 const userSchema = zod
     .object({
-        username: zod.string(),
+        username: zod.string().min(1, { message: "Full name is required" }),
         email: zod.string().email(),
         password: zod
             .string()
-            .min(7)
+            .min(7, { message: "Must be at least 7 characters" })
             .max(32)
             .regex(/[A-Z]/, { message: "Must contain an uppercase letter" })
             .regex(/[a-z]/, { message: "Must contain a lowercase letter" })
@@ -38,10 +38,11 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
             confirmPassword: "",
         },
         onSubmit: ({ value }) => {
-            console.log(value)
+			console.log("Action.");
         },
         validators: {
             onChange: userSchema,
+            onSubmit: userSchema,
         },
     })
     const submit: SubmitEventHandler<HTMLFormElement> = (e) => {
@@ -76,10 +77,9 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                             <form.Field
                                 name="username"
                                 children={(field) => {
-                                    console.log(field.state.meta)
                                     return (
                                         <Field>
-                                            <FieldLabel htmlFor={field.name}>Full Name</FieldLabel>
+                                            <FieldLabel htmlFor={field.name}>Full name</FieldLabel>
                                             <Input
                                                 type="text"
                                                 id={field.name}
@@ -87,9 +87,13 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                                                 value={field.state.value}
                                                 onBlur={field.handleBlur}
                                                 onChange={(e) => field.handleChange(e.target.value)}
-                                                placeholder="Full Name"
+                                                placeholder="Full name"
                                                 autoComplete="name"
+                                                aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
                                             />
+                                            {field.state.meta.isTouched && !field.state.meta.isValid && (
+                                                <FieldError>{field.state.meta.errors?.[0]?.message}</FieldError>
+                                            )}
                                         </Field>
                                     )
                                 }}
@@ -109,62 +113,74 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                                                 onChange={(e) => field.handleChange(e.target.value)}
                                                 placeholder="email@example.com"
                                                 autoComplete="email"
+                                                aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
                                             />
+                                            {field.state.meta.isTouched && !field.state.meta.isValid && (
+                                                <FieldError>{field.state.meta.errors?.[0]?.message}</FieldError>
+                                            )}
                                         </Field>
                                     )
                                 }}
                             ></form.Field>
-                            <Field>
-                                <Field className="grid gap-4 sm:grid-cols-2">
-                                    <form.Field
-                                        name="password"
-                                        children={(field) => {
-                                            return (
-                                                <Field>
-                                                    <FieldLabel htmlFor={field.name}>Password</FieldLabel>
-                                                    <Input
-                                                        type="password"
-                                                        id={field.name}
-                                                        name={field.name}
-                                                        value={field.state.value}
-                                                        onBlur={field.handleBlur}
-                                                        onChange={(e) => field.handleChange(e.target.value)}
-                                                        autoComplete="new-password"
-                                                    />
-                                                </Field>
-                                            )
-                                        }}
-                                    ></form.Field>
+                            <Field className="grid gap-4 sm:grid-cols-2">
+                                <form.Field
+                                    name="password"
+                                    children={(field) => {
+                                        return (
+                                            <Field>
+                                                <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+                                                <Input
+                                                    type="password"
+                                                    id={field.name}
+                                                    name={field.name}
+                                                    value={field.state.value}
+                                                    onBlur={field.handleBlur}
+                                                    onChange={(e) => field.handleChange(e.target.value)}
+                                                    autoComplete="new-password"
+                                                    aria-invalid={
+                                                        field.state.meta.isTouched && !field.state.meta.isValid
+                                                    }
+                                                />
+                                                {field.state.meta.isTouched && !field.state.meta.isValid && (
+                                                    <FieldError>{field.state.meta.errors?.[0]?.message}</FieldError>
+                                                )}
+                                            </Field>
+                                        )
+                                    }}
+                                ></form.Field>
 
-                                    <form.Field
-                                        name="confirmPassword"
-                                        children={(field) => {
-                                            return (
-                                                <Field>
-                                                    <FieldLabel htmlFor={field.name}>Confirm Password</FieldLabel>
-                                                    <Input
-                                                        type="password"
-                                                        id={field.name}
-                                                        name={field.name}
-                                                        value={field.state.value}
-                                                        onBlur={field.handleBlur}
-                                                        onChange={(e) => field.handleChange(e.target.value)}
-                                                        autoComplete="current-password"
-                                                    />
-                                                </Field>
-                                            )
-                                        }}
-                                    ></form.Field>
-                                </Field>
+                                <form.Field
+                                    name="confirmPassword"
+                                    children={(field) => {
+                                        return (
+                                            <Field>
+                                                <FieldLabel htmlFor={field.name}>Confirm Password</FieldLabel>
+                                                <Input
+                                                    type="password"
+                                                    id={field.name}
+                                                    name={field.name}
+                                                    value={field.state.value}
+                                                    onBlur={field.handleBlur}
+                                                    onChange={(e) => field.handleChange(e.target.value)}
+                                                    autoComplete="new-password"
+                                                    aria-invalid={
+                                                        field.state.meta.isTouched && !field.state.meta.isValid
+                                                    }
+                                                />
+                                                {field.state.meta.isTouched && !field.state.meta.isValid && (
+                                                    <FieldError>{field.state.meta.errors?.[0]?.message}</FieldError>
+                                                )}
+                                            </Field>
+                                        )
+                                    }}
+                                ></form.Field>
                             </Field>
                             <form.Subscribe
-                                selector={(state) => [state.canSubmit]}
-                                children={([canSubmit]) => {
+							selector={(state)=>[state]}
+                                children={([state]) => {
                                     return (
                                         <Field>
-                                            <Button type="submit" disabled={!canSubmit}>
-                                                Create Account
-                                            </Button>
+                                            <Button type="submit">Create Account</Button>
                                             <FieldDescription className="text-center">
                                                 Already have an account? <NavLink to="/login">Sign in</NavLink>
                                             </FieldDescription>
