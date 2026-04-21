@@ -38,10 +38,11 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
             confirmPassword: "",
         },
         onSubmit: ({ value }) => {
-			console.log("Action.");
+            console.log("Action.")
         },
         validators: {
-            onChange: userSchema,
+            onChangeAsync: userSchema,
+            onChangeAsyncDebounceMs: 500,
             onSubmit: userSchema,
         },
     })
@@ -176,7 +177,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                                 ></form.Field>
                             </Field>
                             <form.Subscribe
-							selector={(state)=>[state]}
+                                selector={(state) => [state]}
                                 children={([state]) => {
                                     return (
                                         <Field>
