@@ -1,9 +1,10 @@
 import "dotenv/config";
 import express from "express";
-import session, { SessionOptions } from "express-session";
+import session from "express-session";
 import passport from "passport";
+import "./src/services/auth.service"
 import router from "./src/routes";
-import cors, { CorsOptions } from "cors";
+import cors from "cors";
 import ErrorMiddleware from "./src/middlewares/error.middleware";
 import { ChatController } from "./src/controllers/chat.controller";
 import { createServer } from "node:http";

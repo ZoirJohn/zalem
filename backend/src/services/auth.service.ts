@@ -19,14 +19,13 @@ passport.deserializeUser(async (id: string, done) => {
 });
 
 passport.use(
-	new LocalStrategy({ usernameField: "email" }, async (username, password, done) => {
+	new LocalStrategy({ usernameField: "email" }, async (email, password, done) => {
 		try {
 			const user = { id: "", password };
 			if (!user) return done(null, false, { message: "Invalid credentials" });
 
 			const isMatch = await bcrypt.compare(password, user.password);
 			if (!isMatch) return done(null, false, { message: "Invalid credentials" });
-
 			return done(null, user);
 		} catch (error) {
 			return done(error);
@@ -73,3 +72,5 @@ passport.use(
 		}
 	}),
 );
+
+export default passport;

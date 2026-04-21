@@ -1,13 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 import passport from "passport";
 import { ApiError } from "../exceptions/ApiError";
+import { validationResult } from "express-validator";
 
 class AuthController {
 	async register(req: Request, res: Response, next: NextFunction) {
 		try {
-			const { email, username, password } = req.body;
-
-			console.log(email, username, password);
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				return next(ApiError.BadRequest("Validation error", errors.array() as unknown as string[]));
+			}
 
 			return res.json({ message: "User created successfully" });
 		} catch (error) {
@@ -20,7 +22,7 @@ class AuthController {
 			if (!user) return next(ApiError.BadRequest(info.message));
 
 			req.login(user, (error) => {
-				if (error) return next(ApiError.BadRequest("Login failed"));
+				if (error) return next(error);
 				res.json(user);
 			});
 		})(req, res, next);
