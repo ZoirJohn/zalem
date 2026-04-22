@@ -1,16 +1,18 @@
 import "dotenv/config";
+import "./src/services/auth.service";
+import "reflect-metadata";
 import express from "express";
 import session from "express-session";
 import passport from "passport";
-import "./src/services/auth.service"
 import router from "./src/routes";
 import cors from "cors";
 import ErrorMiddleware from "./src/middlewares/error.middleware";
 import { ChatController } from "./src/controllers/chat.controller";
 import { createServer } from "node:http";
 import { corsOptions, sessionOptions } from "./src/utils/options";
+import { AppDataSource } from "./data-source";
 
-function bootstrap() {
+async function bootstrap() {
 	const app = express();
 	const http = createServer(app);
 
@@ -25,6 +27,7 @@ function bootstrap() {
 	app.use(ErrorMiddleware);
 
 	new ChatController(http);
+	await AppDataSource.initialize();
 
 	http.listen(parseInt(process.env.PORT!), () => {
 		console.log("SERVER STARTED :)");

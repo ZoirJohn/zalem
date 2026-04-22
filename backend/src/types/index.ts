@@ -1,4 +1,4 @@
-type UserModel = { id: string };
+import { User as UserModel } from "../entities/user.entity";
 
 declare global {
 	namespace Express {
