@@ -5,28 +5,28 @@ export class User {
 	@PrimaryGeneratedColumn("uuid")
 	id!: string;
 
-	@Column()
+	@Column({ nullable: true })
 	display_name!: string;
 
-	@Column({ type: "varchar", nullable: true, unique: true })
+	@Column({ nullable: true, unique: true })
 	email!: string;
 
-	@Column({ type: "varchar", nullable: true })
+	@Column({ nullable: true })
 	password!: string;
 
-	@Column({ type: "varchar", nullable: true })
+	@Column({ nullable: true })
 	google_id!: string;
 
-	@Column({ type: "varchar", nullable: true })
+	@Column({ nullable: true })
 	facebook_id!: string;
 
 	@Column({ type: "enum", enum: ["god", "user"], default: "user" })
 	role!: string;
 
-	@Column({ type: "boolean", default: false })
+	@Column({ default: false })
 	is_email_verified!: boolean;
 
-	@Column({ type: "boolean", default: false })
+	@Column({ default: false })
 	blocked!: boolean;
 
 	@CreateDateColumn()
