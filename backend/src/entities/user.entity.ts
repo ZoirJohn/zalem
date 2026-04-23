@@ -8,16 +8,16 @@ export class User {
 	@Column()
 	display_name!: string;
 
-	@Column({ nullable: true, unique: true })
+	@Column({ type: "varchar", nullable: true, unique: true })
 	email!: string;
 
-	@Column({ nullable: true })
+	@Column({ type: "varchar", nullable: true })
 	password!: string;
 
-	@Column({ nullable: true })
+	@Column({ type: "varchar", nullable: true })
 	google_id!: string;
 
-	@Column({ nullable: true })
+	@Column({ type: "varchar", nullable: true })
 	facebook_id!: string;
 
 	@Column({ type: "enum", enum: ["god", "user"], default: "user" })

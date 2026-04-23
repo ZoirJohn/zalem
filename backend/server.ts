@@ -1,6 +1,6 @@
 import "dotenv/config";
-import "./src/services/auth.service";
 import "reflect-metadata";
+import "./src/services/auth.service";
 import express from "express";
 import session from "express-session";
 import passport from "passport";
