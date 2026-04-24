@@ -23,7 +23,7 @@ class AuthController {
 
 			const display_name = req.body.displayName;
 			const email = req.body.email;
-			const password = await bcrypt.hash(req.body.password, 4);
+			const password = await bcrypt.hash(req.body.password, 12);
 
 			user = repository.create({
 				display_name,
@@ -31,7 +31,7 @@ class AuthController {
 				password,
 			});
 
-			const newUser = await repository.save(user);
+			const { password: hashed, ...newUser } = await repository.save(user);
 
 			return res.json({ user: newUser });
 		} catch (error) {
@@ -49,15 +49,15 @@ class AuthController {
 			});
 		})(req, res, next);
 	}
-	async loginWithGoogle() {
+	async loginWithGoogle(req: Request, res: Response, next: NextFunction) {
 		passport.authenticate("google", {
 			scope: ["profile", "email"],
-		});
+		})(req, res, next);
 	}
-	async loginWithFacebook() {
+	async loginWithFacebook(req: Request, res: Response, next: NextFunction) {
 		passport.authenticate("facebook", {
 			scope: ["profile", "email"],
-		});
+		})(req, res, next);
 	}
 	async loginWithGoogleCallback() {
 		passport.authenticate("google", {
