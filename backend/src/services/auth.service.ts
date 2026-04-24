@@ -42,12 +42,10 @@ async function handleOAuthLogin(repository: Repository<User>, profile: Profile, 
 		user = repository.create({
 			[id]: profile.id,
 			display_name: profile.displayName,
-			email: email,
+			email,
 		});
-
-		await repository.save(user);
-
-		return done(null, user);
+		const savedUser = await repository.save(user);
+		return done(null, savedUser);
 	} catch (error) {
 		return done(error, false);
 	}

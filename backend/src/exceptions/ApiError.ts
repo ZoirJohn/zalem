@@ -12,4 +12,7 @@ export class ApiError extends Error {
 	static BadRequest(message = "Bad request", errors: string[] = []) {
 		return new ApiError(400, message, errors);
 	}
+	static Conflict(message: string, errors: string[] = []) {
+		return new ApiError(400, message, errors);
+	}
 }
