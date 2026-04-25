@@ -7,8 +7,9 @@ import { NavLink } from "react-router"
 import { useForm } from "@tanstack/react-form"
 import Facebook from "~/assets/img/facebook.svg"
 import Google from "~/assets/img/google.svg"
-import type { SubmitEventHandler } from "react"
+import { useState, type SubmitEventHandler } from "react"
 import * as zod from "zod"
+import { toast } from "sonner"
 
 const userSchema = zod
     .object({
@@ -30,6 +31,9 @@ const userSchema = zod
     })
 
 export function SignupForm({ className, ...props }: React.ComponentProps<"div">) {
+    // const [success, setSuccess] = useState(true)
+    // const [error, setError] = useState<string | null>(null)
+
     const form = useForm({
         defaultValues: {
             username: "",
@@ -193,6 +197,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                     </form>
                 </CardContent>
             </Card>
+            <Button onClick={() => toast("Sucessfully created account",{})}>open</Button>
         </div>
     )
 }
