@@ -33,7 +33,9 @@ async function handleOAuthLogin(repository: Repository<User>, profile: Profile, 
 		let user = await repository.findOneBy({ email });
 		if (user) {
 			if (user.blocked) return done(null, false);
-
+			if (user[id] === profile.id) {
+				return done(null, user);
+			}
 			user[id] = profile.id;
 			const updatedUser = await repository.save(user);
 			return done(null, updatedUser);

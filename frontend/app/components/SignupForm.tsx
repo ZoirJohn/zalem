@@ -7,9 +7,10 @@ import { NavLink } from "react-router"
 import { useForm } from "@tanstack/react-form"
 import Facebook from "~/assets/img/facebook.svg"
 import Google from "~/assets/img/google.svg"
-import { useState, type SubmitEventHandler } from "react"
-import * as zod from "zod"
+import { type SubmitEventHandler } from "react"
 import { toast } from "sonner"
+import * as zod from "zod"
+import API_REQUEST from "~/server/api"
 
 const userSchema = zod
     .object({
@@ -31,9 +32,6 @@ const userSchema = zod
     })
 
 export function SignupForm({ className, ...props }: React.ComponentProps<"div">) {
-    // const [success, setSuccess] = useState(true)
-    // const [error, setError] = useState<string | null>(null)
-
     const form = useForm({
         defaultValues: {
             username: "",
@@ -41,12 +39,17 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
             password: "",
             confirmPassword: "",
         },
-        onSubmit: ({ value }) => {
-            console.log("Action.")
+        onSubmit: async ({ value: { email, username, password } }) => {
+            try {
+                await API_REQUEST.register(email, password, username)
+                toast.success("Account created successfully", { duration: 4000 })
+            } catch (error) {
+                toast.error("Failed to create account", { duration: 4000 })
+            }
         },
         validators: {
             onChangeAsync: userSchema,
-            onChangeAsyncDebounceMs: 500,
+            onChangeAsyncDebounceMs: 1000,
             onSubmit: userSchema,
         },
     })
@@ -197,7 +200,6 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                     </form>
                 </CardContent>
             </Card>
-            <Button onClick={() => toast("Sucessfully created account",{})}>open</Button>
         </div>
     )
 }

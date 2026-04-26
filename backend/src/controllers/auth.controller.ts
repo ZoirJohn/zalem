@@ -8,15 +8,15 @@ import { User } from "../entities/user.entity";
 import bcrypt from "bcrypt";
 
 class AuthController {
+	private repository: Repository<User> = AppDataSource.getRepository(User);
 	async register(req: Request, res: Response, next: NextFunction) {
-		const repository: Repository<User> = AppDataSource.getRepository(User);
 		try {
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
 				return next(ApiError.BadRequest("Validation error", errors.array() as unknown as string[]));
 			}
 
-			let user = await repository.findOneBy({ email: req.body.email });
+			let user = await this.repository.findOneBy({ email: req.body.email });
 			if (user) {
 				return next(ApiError.Conflict("Email already exists"));
 			}
@@ -25,23 +25,25 @@ class AuthController {
 			const email = req.body.email;
 			const password = await bcrypt.hash(req.body.password, 12);
 
-			user = repository.create({
+			user = this.repository.create({
 				display_name,
 				email,
 				password,
 			});
 
-			const { password: hashed, ...newUser } = await repository.save(user);
-
-			return res.json({ user: newUser });
+			const { password: hashed, ...newUser } = await this.repository.save(user);
+			req.logIn(user, (error) => {
+				if (error) return next(error);
+				return res.json({ user: newUser });
+			});
 		} catch (error) {
 			return next(error);
 		}
 	}
 	async login(req: Request, res: Response, next: NextFunction) {
-		passport.authenticate("local", (error: Error, user: Express.User, info: { message: string }) => {
+		passport.authenticate("local", (error: Error, user: Express.User) => {
 			if (error) return next(error);
-			if (!user) return next(ApiError.BadRequest(info.message));
+			if (!user) return next(ApiError.BadRequest("Incorrect email or password"));
 
 			req.login(user, (error) => {
 				if (error) return next(error);

@@ -7,16 +7,13 @@ class API_REQUEST {
         loginWithFacebook: this.API_URL + "/auth/facebook",
     }
     async register(email: string, password: string, username: string) {
-        try {
-            const body = JSON.stringify({ email, password, username })
-            const res = await fetch(this.ENDPOINT.login, {
-                body,
-                headers: { "Content-Type": "application/json" },
-                method: "POST",
-            })
-            const data = res.json()
-            console.log(data)
-        } catch (error) {}
+        const body = JSON.stringify({ email, password, displayName: username })
+        const res = await fetch(this.ENDPOINT.register, {
+            body,
+            headers: { "Content-Type": "application/json" },
+            method: "POST",
+        })
+        const data = await res.json()
     }
     async login(email: string, password: string) {
         try {
