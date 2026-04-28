@@ -1,16 +1,18 @@
+import { defineConfig } from "vite"
 import { reactRouter } from "@react-router/dev/vite"
 import tailwindcss from "@tailwindcss/vite"
-import { defineConfig } from "vite"
-import tsconfigPaths from "vite-tsconfig-paths"
 
 export default defineConfig({
-  plugins: [tailwindcss(), reactRouter(), tsconfigPaths(),],
-  build: {
-    cssCodeSplit: false,
-  },
-  server: {
-    hmr: {
-      overlay: false,
+    plugins: [tailwindcss(), reactRouter()],
+    build: {
+        cssCodeSplit: false,
     },
-  },
+    resolve: {
+        tsconfigPaths: true,
+    },
+    server: {
+        hmr: {
+            overlay: false,
+        },
+    },
 })
