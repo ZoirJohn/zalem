@@ -1,33 +1,18 @@
 import { NextFunction, Request, Response } from "express";
 import passport from "passport";
 import { ApiError } from "../exceptions/ApiError";
-import { Repository } from "typeorm";
-import { AppDataSource } from "../../data-source";
-import { User } from "../entities/user.entity";
-import bcrypt from "bcrypt";
+import AuthService from "../services/auth.service";
+import { UserDTO } from "../dtos/user.dto";
 
 class AuthController {
-	private repository: Repository<User> = AppDataSource.getRepository(User);
 	async register(req: Request, res: Response, next: NextFunction) {
 		try {
-			const { email, display_name, password: unhashedPassword } = req.body;
-			const password = await bcrypt.hash(unhashedPassword, 12);
+			const { email, display_name, password } = req.body;
+			const user = await AuthService.register(email, display_name, password);
 
-			let user = await this.repository.findOneBy({ email });
-			if (user) {
-				return next(ApiError.Conflict("Email already exists"));
-			}
-
-			user = this.repository.create({
-				display_name,
-				email,
-				password,
-			});
-
-			const { password: hashed, ...newUser } = await this.repository.save(user);
 			req.logIn(user, (error) => {
 				if (error) return next(error);
-				return res.json({ user: newUser });
+				return res.json({ user: new UserDTO(user) });
 			});
 		} catch (error) {
 			return next(error);
@@ -38,7 +23,7 @@ class AuthController {
 			if (error) return next(error);
 			if (!user) return next(ApiError.BadRequest("Incorrect email or password"));
 
-			req.login(user, (error) => {
+			req.logIn(user, (error) => {
 				if (error) return next(error);
 				const { password, ...safeUser } = user;
 				res.json(safeUser);
@@ -52,18 +37,18 @@ class AuthController {
 	}
 	async loginWithFacebook(req: Request, res: Response, next: NextFunction) {
 		passport.authenticate("facebook", {
-			scope: ["profile", "email"],
+			scope: ["public_profile", "email"],
 		})(req, res, next);
 	}
-	async loginWithGoogleCallback() {
+	async loginWithGoogleCallback(req: Request, res: Response, next: NextFunction) {
 		passport.authenticate("google", {
 			failureRedirect: `${process.env.FRONTEND_URL}/login?error=google_failed`,
-		});
+		})(req, res, next);
 	}
-	async loginWithFacebookCallback() {
+	async loginWithFacebookCallback(req: Request, res: Response, next: NextFunction) {
 		passport.authenticate("facebook", {
 			failureRedirect: `${process.env.FRONTEND_URL}/login?error=facebook_failed`,
-		});
+		})(req, res, next);
 	}
 	async logout(req: Request, res: Response, next: NextFunction) {
 		try {
