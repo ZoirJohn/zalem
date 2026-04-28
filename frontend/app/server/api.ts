@@ -14,14 +14,23 @@ class API_REQUEST {
             method: "POST",
         })
         const data = await res.json()
+        if (!res.ok) {
+            throw new Error(data.message)
+        }
+        return data
     }
     async login(email: string, password: string) {
-        try {
-            const body = JSON.stringify({ email, password })
-            const res = await fetch(this.ENDPOINT.login, { body, headers: { "Content-Type": "application/json" } })
-            const data = res.json()
-            console.log(data)
-        } catch (error) {}
+        const body = JSON.stringify({ email, password })
+        const res = await fetch(this.ENDPOINT.login, {
+            body,
+            headers: { "Content-Type": "application/json" },
+            method: "POST",
+        })
+        const data = await res.json()
+        if (!res.ok) {
+            throw new Error(data.message)
+        }
+        return data
     }
 }
 

@@ -4,11 +4,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/com
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldSeparator } from "~/components/ui/field"
 import { Input } from "~/components/ui/input"
 import { Link } from "react-router"
+import { useForm } from "@tanstack/react-form"
+import type { SubmitEventHandler } from "react"
+import { toast } from "sonner"
+import API_REQUEST from "~/server/api"
 import Facebook from "~/assets/img/facebook.svg"
 import Google from "~/assets/img/google.svg"
 import * as zod from "zod"
-import { useForm } from "@tanstack/react-form"
-import type { SubmitEventHandler } from "react"
 
 const userSchema = zod.object({
     email: zod.string().email(),
@@ -21,8 +23,16 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
             email: "",
             password: "",
         },
-        onSubmit: ({ value }) => {
-            console.log("Login action:", value)
+        onSubmit: async ({ value: { email, password } }) => {
+            try {
+                const data = await API_REQUEST.login(email, password)
+                toast.success("Login successful", { duration: 4000 })
+                console.log(data)
+            } catch (error) {
+                if (error instanceof Error) {
+                    toast.error(error.message, { duration: 4000 })
+                }
+            }
         },
         validators: {
             onChangeAsync: userSchema,

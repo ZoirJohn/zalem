@@ -5,12 +5,12 @@ import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldSepar
 import { Input } from "~/components/ui/input"
 import { NavLink } from "react-router"
 import { useForm } from "@tanstack/react-form"
-import Facebook from "~/assets/img/facebook.svg"
-import Google from "~/assets/img/google.svg"
 import { type SubmitEventHandler } from "react"
 import { toast } from "sonner"
-import * as zod from "zod"
 import API_REQUEST from "~/server/api"
+import Facebook from "~/assets/img/facebook.svg"
+import Google from "~/assets/img/google.svg"
+import * as zod from "zod"
 
 const userSchema = zod
     .object({

@@ -25,8 +25,7 @@ class AuthController {
 
 			req.logIn(user, (error) => {
 				if (error) return next(error);
-				const { password, ...safeUser } = user;
-				res.json(safeUser);
+				res.json({ user: new UserDTO(user) });
 			});
 		})(req, res, next);
 	}
