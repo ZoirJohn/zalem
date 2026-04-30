@@ -5,6 +5,8 @@ class API_REQUEST {
         login: this.API_URL + "/auth/login",
         loginWithGoogle: this.API_URL + "/auth/google",
         loginWithFacebook: this.API_URL + "/auth/facebook",
+
+        me: this.API_URL + "/users/me",
     }
     async register(email: string, password: string, username: string) {
         const body = JSON.stringify({ email, password, displayName: username })
@@ -12,6 +14,7 @@ class API_REQUEST {
             body,
             headers: { "Content-Type": "application/json" },
             method: "POST",
+            credentials: "include",
         })
         const data = await res.json()
         if (!res.ok) {
@@ -25,11 +28,17 @@ class API_REQUEST {
             body,
             headers: { "Content-Type": "application/json" },
             method: "POST",
+            credentials: "include",
         })
         const data = await res.json()
         if (!res.ok) {
             throw new Error(data.message)
         }
+        return data
+    }
+    async me() {
+        const res = await fetch(this.ENDPOINT.me, { credentials: "include" })
+        const data = await res.json()
         return data
     }
 }
