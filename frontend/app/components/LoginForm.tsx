@@ -129,7 +129,9 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                             ></form.Field>
 
                             <Field>
-                                <Button type="submit">Login</Button>
+                                <Button type="submit" role="button" name="login-button" data-testid="login-button">
+                                    Login
+                                </Button>
                                 <FieldDescription className="text-center">
                                     Don&apos;t have an account? <Link to="/signup">Sign up</Link>
                                 </FieldDescription>
