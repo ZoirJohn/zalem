@@ -6,6 +6,7 @@ import session from "express-session";
 import passport from "passport";
 import router from "./src/routes";
 import cors from "cors";
+import morgan from "morgan";
 import ErrorMiddleware from "./src/middlewares/error.middleware";
 import { ChatController } from "./src/controllers/chat.controller";
 import { createServer } from "node:http";
@@ -23,6 +24,7 @@ async function bootstrap() {
 	app.use(passport.initialize());
 	app.use(passport.session());
 
+	app.use(morgan("tiny"));
 	app.use("/api", router);
 	app.use(ErrorMiddleware);
 
