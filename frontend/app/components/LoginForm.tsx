@@ -13,7 +13,7 @@ import Google from "~/assets/img/google.svg"
 import * as zod from "zod"
 
 const userSchema = zod.object({
-    email: zod.string().email(),
+    email: zod.string().min(1, { message: "Email is required" }).email(),
     password: zod.string().min(1, { message: "Password is required" }),
 })
 
@@ -87,6 +87,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                                                 onChange={(e) => field.handleChange(e.target.value)}
                                                 autoComplete="email"
                                                 aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
+                                                data-testid="email-field"
                                             />
                                             {field.state.meta.isTouched && !field.state.meta.isValid && (
                                                 <FieldError>{field.state.meta.errors?.[0]?.message}</FieldError>
@@ -119,6 +120,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                                                 onChange={(e) => field.handleChange(e.target.value)}
                                                 autoComplete="current-password"
                                                 aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
+                                                data-testid="password-field"
                                             />
                                             {field.state.meta.isTouched && !field.state.meta.isValid && (
                                                 <FieldError>{field.state.meta.errors?.[0]?.message}</FieldError>

@@ -23,12 +23,24 @@ describe("Login", () => {
         expect(screen.getByLabelText(/password/i)).toBeInTheDocument()
     })
 
-    it("should show validation errors on empty submit", async () => {
+    it("should render validation error fields, with invalid credentials", async () => {
         renderLogin()
 
         await userEvent.click(screen.getByTestId("login-button"))
 
-        expect(screen.getByText(/Invalid email address/i)).toBeInTheDocument()
+        expect(screen.getByText(/Email is required/i)).toBeInTheDocument()
         expect(screen.getByText(/Password is required/i)).toBeInTheDocument()
+    })
+
+    it("should submit form, with valid credentials", async () => {
+        renderLogin()
+
+        await userEvent.type(screen.getByTestId("email-field"), "test@email.com")
+        await userEvent.type(screen.getByTestId("password-field"), "Test123#")
+
+        await userEvent.click(screen.getByTestId("login-button"))
+
+        expect(screen.queryByText(/Email is required/i)).not.toBeInTheDocument()
+        expect(screen.queryByText(/Password is required/i)).not.toBeInTheDocument()
     })
 })

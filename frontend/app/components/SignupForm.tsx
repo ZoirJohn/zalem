@@ -15,16 +15,17 @@ import * as zod from "zod"
 const userSchema = zod
     .object({
         username: zod.string().min(1, { message: "Full name is required" }),
-        email: zod.string().email(),
+        email: zod.string().min(1, { message: "Email is required" }).email(),
         password: zod
             .string()
+            .min(1, { message: "Password is required" })
             .min(7, { message: "Must be at least 7 characters" })
             .max(32)
             .regex(/[A-Z]/, { message: "Must contain an uppercase letter" })
             .regex(/[a-z]/, { message: "Must contain a lowercase letter" })
             .regex(/[0-9]/, { message: "Must contain a number" })
             .regex(/[^A-Za-z0-9]/, { message: "Must contain a special character" }),
-        confirmPassword: zod.string(),
+        confirmPassword: zod.string().min(1, { message: "Confirm password is required" }),
     })
     .refine((data) => data.password === data.confirmPassword, {
         message: "Passwords do not match",
