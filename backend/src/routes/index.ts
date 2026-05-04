@@ -18,6 +18,6 @@ router.get("/auth/google/callback", AuthController.loginWithGoogleCallback);
 router.get("/auth/facebook", AuthController.loginWithFacebook);
 router.get("/auth/facebook/callback", AuthController.loginWithFacebookCallback);
 
-router.get("/users/me", isAuthenticated, UserController.me);
+router.get("/users/me", isAuthenticated, (req, res, next) => UserController.me(req, res, next));
 
 export default router;

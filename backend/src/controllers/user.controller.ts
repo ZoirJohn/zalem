@@ -3,6 +3,7 @@ import { Repository } from "typeorm";
 import { User } from "../entities/user.entity";
 import { AppDataSource } from "../../data-source";
 import { ApiError } from "../exceptions/ApiError";
+import { UserDTO } from "../dtos/user.dto";
 
 class UserController {
 	private repository: Repository<User> = AppDataSource.getRepository(User);
@@ -13,8 +14,11 @@ class UserController {
 				return next(ApiError.NotFound("User not found"));
 			}
 
-			return res.json({ user: "" });
-		} catch (error) {}
+			return res.json({ user: new UserDTO(user) });
+		} catch (error) {
+			console.log(error);
+			next(error);
+		}
 	}
 }
 export default new UserController();

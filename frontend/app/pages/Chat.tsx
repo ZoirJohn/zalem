@@ -2,7 +2,7 @@ import { ArrowLeft01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Link, Outlet, useLocation } from "react-router"
 import { AppSidebar } from "~/components/AppSidebar"
-import ProtectedPage from "~/components/ProtectedPage"
+import ProtectedPage from "~/components/Authenticated"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage } from "~/components/ui/breadcrumb"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar"
 

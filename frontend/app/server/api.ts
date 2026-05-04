@@ -39,6 +39,9 @@ class API_REQUEST {
     async me() {
         const res = await fetch(this.ENDPOINT.me, { credentials: "include" })
         const data = await res.json()
+        if (!res.ok) {
+            throw new Error(data.message)
+        }
         return data
     }
 }
