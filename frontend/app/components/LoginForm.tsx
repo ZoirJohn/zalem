@@ -47,6 +47,13 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
         form.handleSubmit()
     }
 
+    const loginWithGoogle = () => {
+        API_REQUEST.loginWithGoogle()
+    }
+
+    const loginWithFacebook = () => {
+        API_REQUEST.loginWithFacebook()
+    }
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>
@@ -58,11 +65,11 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                     <form onSubmit={submit}>
                         <FieldGroup className="gap-6">
                             <Field>
-                                <Button variant="outline" type="button">
+                                <Button variant="outline" type="button" onClick={loginWithFacebook}>
                                     <img src={Facebook} alt="Facebook logo" className="size-6" />
                                     Login with Facebook
                                 </Button>
-                                <Button variant="outline" type="button">
+                                <Button variant="outline" type="button" onClick={loginWithGoogle}>
                                     <img src={Google} alt="Google logo" className="size-4" />
                                     Login with Google
                                 </Button>

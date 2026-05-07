@@ -86,6 +86,7 @@ passport.use(
 			clientID: process.env.FACEBOOK_CLIENT_ID!,
 			clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
 			callbackURL: process.env.FACEBOOK_CALLBACK_URL!,
+			profileFields: ["id", "emails"],
 		},
 		async (_, __, profile, done) => await handleOAuthLogin(userRepository, profile, "facebook_id", done),
 	),

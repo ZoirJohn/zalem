@@ -1,6 +1,6 @@
 class API_REQUEST {
-    API_URL = import.meta.env.VITE_API_URL
-    ENDPOINT = {
+    private API_URL = import.meta.env.VITE_API_URL
+    private ENDPOINT = {
         register: this.API_URL + "/auth/register",
         login: this.API_URL + "/auth/login",
         loginWithGoogle: this.API_URL + "/auth/google",
@@ -43,6 +43,12 @@ class API_REQUEST {
             throw new Error(data.message)
         }
         return data
+    }
+    async loginWithGoogle() {
+        window.location.href = this.ENDPOINT.loginWithGoogle
+    }
+    async loginWithFacebook() {
+        window.location.href = this.ENDPOINT.loginWithFacebook
     }
 }
 
