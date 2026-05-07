@@ -42,7 +42,7 @@ class AuthController {
 
 			req.logIn(user, (loginError) => {
 				if (loginError) return next(loginError);
-				res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
+				res.redirect(`${process.env.FRONTEND_URL}/chat`);
 			});
 		})(req, res, next);
 	}
@@ -53,7 +53,7 @@ class AuthController {
 
 			req.logIn(user, (loginError) => {
 				if (loginError) return next(loginError);
-				res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
+				res.redirect(`${process.env.FRONTEND_URL}/chat`);
 			});
 		})(req, res, next);
 	}
