@@ -12,7 +12,6 @@ export default function Authenticated({ children }: { children: ReactNode }) {
             .catch(() => setUser(null))
             .finally(() => setLoading(false))
     }, [])
-    console.log(user)
     if (loading) {
         return <>Loading...</>
     }

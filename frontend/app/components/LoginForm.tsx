@@ -27,7 +27,6 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
             try {
                 const data = await API_REQUEST.login(email, password)
                 toast.success("Login successful", { duration: 4000 })
-                console.log(data)
             } catch (error) {
                 if (error instanceof Error) {
                     toast.error(error.message, { duration: 4000 })
