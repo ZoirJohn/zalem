@@ -15,6 +15,6 @@ export const sessionOptions: SessionOptions = {
 };
 
 export const corsOptions: CorsOptions = {
-	origin: process.env.CLIENT_URL,
+	origin: process.env.FRONTEND_URL,
 	credentials: true,
 };

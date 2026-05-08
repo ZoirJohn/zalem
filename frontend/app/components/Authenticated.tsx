@@ -8,15 +8,16 @@ export default function Authenticated({ children }: { children: ReactNode }) {
     const [loading, setLoading] = useState(true)
     useEffect(() => {
         API_REQUEST.me()
-            .then((data) =>setUser(data.user))
+            .then((data) => setUser(data.user))
             .catch(() => setUser(null))
             .finally(() => setLoading(false))
     }, [])
+    console.log(user)
     if (loading) {
         return <>Loading...</>
     }
-	if (!user?.id) {
-		return <Navigate replace to="/login"/>
-	}
+    if (!user?.id) {
+        return <Navigate replace to="/login" />
+    }
     return <>{children}</>
 }
