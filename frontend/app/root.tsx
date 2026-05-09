@@ -3,8 +3,22 @@ import type { Route } from "./+types/root"
 import "./app.css"
 import { TooltipProvider } from "./components/ui/tooltip"
 import { Toaster } from "sonner"
+import { AuthContext } from "./context/AuthContext"
+import { useEffect, useState } from "react"
+import type { User } from "./types"
+import API_REQUEST from "./server/api"
 
 export function Layout({ children }: { children: React.ReactNode }) {
+    const [user, setUser] = useState<User | null>(null)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        API_REQUEST.me()
+            .then((d) => setUser(d.user))
+            .catch(() => setUser(null))
+            .finally(() => setLoading(false))
+    }, [])
+	
     return (
         <html lang="en" role="main">
             <head>
@@ -16,7 +30,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </head>
             <body>
                 <TooltipProvider>
-                    <div id="wrapper">{children}</div>
+                    <AuthContext value={{ user, loading }}>
+                        <div id="wrapper">{children}</div>
+                    </AuthContext>
                     <Toaster />
                 </TooltipProvider>
 

@@ -2,7 +2,7 @@ import { ArrowLeft01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Link, Outlet, useLocation } from "react-router"
 import { AppSidebar } from "~/components/AppSidebar"
-import Authenticated from "~/components/Authenticated"
+import Protected from "~/components/Protected"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage } from "~/components/ui/breadcrumb"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar"
 
@@ -10,7 +10,7 @@ export default function Dashboard() {
     const location = useLocation()
     const currentCrumb = location.pathname.split("/").at(2)
     return (
-        <Authenticated>
+        <Protected shouldUserExist="Y" redirectTo="/login">
             <SidebarProvider
                 style={
                     {
@@ -40,6 +40,6 @@ export default function Dashboard() {
                     <Outlet />
                 </SidebarInset>
             </SidebarProvider>
-        </Authenticated>
+        </Protected>
     )
 }
