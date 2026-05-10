@@ -33,7 +33,7 @@ class AuthController {
 		passport.authenticate("google")(req, res, next);
 	}
 	async loginWithFacebook(req: Request, res: Response, next: NextFunction) {
-		passport.authenticate("facebook", { scope: ["email"] })(req, res, next);
+		passport.authenticate("facebook")(req, res, next);
 	}
 	async loginWithGoogleCallback(req: Request, res: Response, next: NextFunction) {
 		passport.authenticate("google", (error: Error, user: Express.User) => {

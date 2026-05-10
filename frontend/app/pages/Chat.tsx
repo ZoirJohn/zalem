@@ -1,14 +1,23 @@
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
+import { use, useMemo } from "react"
 import { Link, Outlet, useLocation } from "react-router"
 import { AppSidebar } from "~/components/AppSidebar"
 import Protected from "~/components/Protected"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage } from "~/components/ui/breadcrumb"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar"
+import { useUsersStore } from "~/server/store"
 
 export default function Dashboard() {
     const location = useLocation()
-    const currentCrumb = location.pathname.split("/").at(2)
+    const { users } = useUsersStore()
+
+    const currentCrumb = useMemo(() => {
+        return location.pathname.split("/").at(2)
+            ? users.find((user) => user.id === location.pathname.split("/").at(2))?.display_name || "Anonymous User"
+            : null
+    }, [location.pathname, users])
+
     return (
         <Protected shouldUserExist="Y" redirectTo="/login">
             <SidebarProvider

@@ -1,20 +1,12 @@
-import { useEffect, useState } from "react"
-import API_REQUEST from "~/server/api"
-import type { ChatUser, User } from "~/types"
+import { useEffect } from "react"
+import { useUsersStore } from "~/server/store"
 
 export function useUsers() {
-    const [users, setUsers] = useState<ChatUser[]>([])
-    const [loading, setLoading] = useState(true)
+    const { users, loading, fetchUsers } = useUsersStore()
+
     useEffect(() => {
-        API_REQUEST.users()
-            .then((data) => {
-                setUsers(data.users)
-				console.log(data.users);
-            })
-            .catch((error) => {})
-            .finally(() => {
-                setLoading(false)
-            })
+        fetchUsers()
     }, [])
+
     return { users, loading }
 }

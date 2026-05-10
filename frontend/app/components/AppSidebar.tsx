@@ -16,16 +16,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Button } from "./ui/button"
 import { useState } from "react"
 import type { User } from "~/types"
-import { useUsers } from "~/hooks/useUsers"
 import clsx from "clsx"
+import { useUsers } from "~/hooks/useUsers"
 
 const mails: User[] = []
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const { isMobile, open, setOpenMobile } = useSidebar()
     const [value, setValue] = useState("")
-    const { users, loading } = useUsers()
-
+    const { users } = useUsers()
     return (
         <Sidebar collapsible="icon" className="hidden flex-1 overflow-hidden md:flex" {...props}>
             <SidebarHeader className={clsx("gap-3.5 p-4", !open && !isMobile && "invisible")}>
@@ -49,7 +48,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                 to={"/chat" + `/${user.id}`}
                                 key={user.id}
                                 className={clsx(
-                                    "flex items-center gap-2 border-t p-4 text-sm leading-tight whitespace-nowrap last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground [475px]:gap-4",
+                                    "flex items-center gap-4 border-t p-4 text-sm leading-tight whitespace-nowrap last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground [475px]:gap-4",
                                     !open && "px-2"
                                 )}
                                 onClick={() => setOpenMobile(false)}
@@ -66,14 +65,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                     )}
                                 >
                                     <div className="flex w-full items-center gap-2">
-                                        <span>{user.display_name}</span>
-                                        <span className="ml-auto text-xs">
-                                            {new Date(user.updated_at).toLocaleDateString()}
-                                        </span>
+                                        <span>{user.display_name || "Anonymous User"}</span>
                                     </div>
-                                    <span className="line-clamp-2 w-65 text-xs whitespace-break-spaces">
-                                        Lorem, ipsum.
-                                    </span>
                                 </div>
                             </Link>
                         ))}
