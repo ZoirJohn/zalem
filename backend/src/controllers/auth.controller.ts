@@ -30,7 +30,7 @@ class AuthController {
 		})(req, res, next);
 	}
 	async loginWithGoogle(req: Request, res: Response, next: NextFunction) {
-		passport.authenticate("google", { scope: ["email"] })(req, res, next);
+		passport.authenticate("google")(req, res, next);
 	}
 	async loginWithFacebook(req: Request, res: Response, next: NextFunction) {
 		passport.authenticate("facebook", { scope: ["email"] })(req, res, next);

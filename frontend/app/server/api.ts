@@ -1,3 +1,5 @@
+import { fetchData } from "~/lib/utils"
+
 class API_REQUEST {
     private API_URL = import.meta.env.VITE_API_URL
     private ENDPOINT = {
@@ -7,6 +9,7 @@ class API_REQUEST {
         loginWithFacebook: this.API_URL + "/auth/facebook",
 
         me: this.API_URL + "/users/me",
+        users: this.API_URL + "/users",
     }
     async register(email: string, password: string, username: string) {
         const body = JSON.stringify({ email, password, displayName: username })
@@ -36,19 +39,19 @@ class API_REQUEST {
         }
         return data
     }
-    async me() {
-        const res = await fetch(this.ENDPOINT.me, { credentials: "include" })
-        const data = await res.json()
-        if (!res.ok) {
-            throw new Error(data.message)
-        }
-        return data
-    }
     async loginWithGoogle() {
         window.location.href = this.ENDPOINT.loginWithGoogle
     }
     async loginWithFacebook() {
         window.location.href = this.ENDPOINT.loginWithFacebook
+    }
+
+    async me() {
+        return fetchData(this.ENDPOINT.me)
+    }
+
+    async users() {
+        return fetchData(this.ENDPOINT.users)
     }
 }
 

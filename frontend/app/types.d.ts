@@ -1,7 +1,7 @@
 export interface User {
     blocked: boolean
     created_at: string
-    display_name: string|null
+    display_name: string | null
     email: string
     facebook_id: string | null
     google_id: string | null
@@ -10,3 +10,5 @@ export interface User {
     role: "user" | "god"
     updated_at: string
 }
+
+export type ChatUser = Pick<User, "id" | "display_name" | "updated_at" | "created_at">
