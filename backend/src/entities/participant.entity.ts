@@ -10,11 +10,11 @@ export class Participant {
 	@PrimaryColumn()
 	user_id!: string;
 
-	@ManyToOne(() => Conversation, (conversation) => conversation.participants)
+	@ManyToOne(() => Conversation, (conversation) => conversation.participants, { onDelete: "CASCADE" })
 	@JoinColumn({ name: "conversation_id" })
 	conversation!: Conversation;
 
-	@ManyToOne(() => User, (user) => user.conversations)
+	@ManyToOne(() => User, (user) => user.conversations, { onDelete: "CASCADE" })
 	@JoinColumn({ name: "user_id" })
 	user!: User;
 }

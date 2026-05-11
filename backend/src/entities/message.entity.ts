@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Conversation } from "./conversation.entity";
 import { User } from "./user.entity";
 
@@ -7,10 +7,12 @@ export class Message {
 	@PrimaryGeneratedColumn("uuid")
 	id!: string;
 
-	@ManyToOne(() => Conversation, (conversation) => conversation.messages)
+	@ManyToOne(() => Conversation, (conversation) => conversation.messages, { onDelete: "CASCADE" })
+	@JoinColumn({ name: "conversation_id" })
 	conversation!: Conversation;
 
-	@ManyToOne(() => User, (user) => user.messages)
+	@ManyToOne(() => User, (user) => user.messages, { onDelete: "CASCADE" })
+	@JoinColumn({ name: "sender_id" })
 	sender!: User;
 
 	@Column()
