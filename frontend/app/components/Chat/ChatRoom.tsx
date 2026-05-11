@@ -74,12 +74,25 @@ export default function ChatRoom(props: ChatRoomProps) {
     }
 
     return (
-        <section className="flex h-[calc(100dvh-65px)] flex-col items-stretch p-3">
-            <ScrollArea className="flex h-[calc(100%-65px)] w-full flex-col rounded-none border-none">
+        <section className="flex h-[calc(100dvh-65px)] flex-col gap-4 bg-claude-canvas px-4 py-5 sm:px-6">
+            <ScrollArea className="flex h-[calc(100%-180px)] w-full flex-col rounded-[16px] border border-claude-hairline bg-claude-canvas">
                 <ScrollBar orientation="vertical" />
-                {messages.map((message) => (
-                    <div key={message.id}>{message.message}</div>
-                ))}
+                <div className="flex flex-col gap-3 px-5 py-4">
+                    {messages.length === 0 ? (
+                        <div className="rounded-[12px] border border-claude-hairline bg-claude-surface-card px-4 py-3 text-center text-sm text-claude-body">
+                            No messages yet
+                        </div>
+                    ) : (
+                        messages.map((message) => (
+                            <div
+                                key={message.id}
+                                className="rounded-[12px] border border-claude-hairline bg-claude-surface-card px-4 py-3 text-sm text-claude-ink"
+                            >
+                                {message.message}
+                            </div>
+                        ))
+                    )}
+                </div>
             </ScrollArea>
             <ChatForm sendMessage={sendMessage} />
         </section>

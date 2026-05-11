@@ -1,6 +1,6 @@
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { use, useMemo } from "react"
+import { useMemo } from "react"
 import { Link, Outlet, useLocation } from "react-router"
 import { AppSidebar } from "~/components/AppSidebar"
 import Protected from "~/components/Protected"
@@ -29,20 +29,22 @@ export default function Dashboard() {
             >
                 <AppSidebar />
                 <SidebarInset>
-                    <header className="sticky top-0 flex shrink-0 items-center gap-2 border-b bg-background p-4">
+                    <header className="sticky top-0 z-10 flex shrink-0 items-center gap-2 border-b border-claude-hairline bg-claude-canvas px-6 py-4">
                         <Breadcrumb className="flex-1">
-                            <BreadcrumbList className="justify-between">
+                            <BreadcrumbList className="justify-between text-claude-muted">
                                 <BreadcrumbItem>
                                     <BreadcrumbLink asChild>
                                         <Link to="/chat">
-                                            <HugeiconsIcon icon={ArrowLeft01Icon} className="size-6 text-black" />
+                                            <HugeiconsIcon icon={ArrowLeft01Icon} className="size-5 text-claude-ink" />
                                         </Link>
                                     </BreadcrumbLink>
                                 </BreadcrumbItem>
                                 <BreadcrumbItem>
-                                    <BreadcrumbPage className="capitalize">{currentCrumb}</BreadcrumbPage>
+                                    <BreadcrumbPage className="text-base font-medium text-claude-ink capitalize">
+                                        {currentCrumb}
+                                    </BreadcrumbPage>
                                 </BreadcrumbItem>
-                                <SidebarTrigger className="text-black" />
+                                <SidebarTrigger className="text-claude-ink" />
                             </BreadcrumbList>
                         </Breadcrumb>
                     </header>

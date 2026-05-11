@@ -19,17 +19,28 @@ import type { User } from "~/types"
 import clsx from "clsx"
 import { useUsers } from "~/hooks/useUsers"
 
-const mails: User[] = []
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const { isMobile, open, setOpenMobile } = useSidebar()
     const [value, setValue] = useState("")
     const { users } = useUsers()
     return (
-        <Sidebar collapsible="icon" className="hidden flex-1 overflow-hidden md:flex" {...props}>
-            <SidebarHeader className={clsx("gap-3.5 p-4", !open && !isMobile && "invisible")}>
+        <Sidebar
+            collapsible="icon"
+            className="hidden flex-1 overflow-hidden md:flex"
+            style={
+                {
+                    "--sidebar": "var(--claude-canvas)",
+                    "--sidebar-foreground": "var(--claude-ink)",
+                    "--sidebar-border": "var(--claude-hairline)",
+                    "--sidebar-accent": "var(--claude-surface-card)",
+                    "--sidebar-accent-foreground": "var(--claude-ink)",
+                } as React.CSSProperties
+            }
+            {...props}
+        >
+            <SidebarHeader className={clsx("gap-3.5 bg-claude-canvas p-4", !open && !isMobile && "invisible")}>
                 <div className="flex w-full items-center justify-between">
-                    <div className="text-base font-medium text-foreground">Messages</div>
+                    <div className="text-base font-medium text-claude-ink">Messages</div>
                     <Button variant="ghost" className="md:hidden" onClick={() => setOpenMobile(false)}>
                         <HugeiconsIcon icon={Cancel01Icon} className="size-6" />
                     </Button>
@@ -38,17 +49,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     placeholder="Type to search..."
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
+                    className="h-9 rounded-[8px] border border-claude-hairline bg-claude-canvas text-sm text-claude-ink placeholder:text-claude-muted focus-visible:border-claude-primary focus-visible:ring-2 focus-visible:ring-claude-primary/20"
                 />
             </SidebarHeader>
-            <SidebarContent>
-                <SidebarGroup className="px-0">
+            <SidebarContent className="bg-claude-canvas">
+                <SidebarGroup className="p-0">
                     <SidebarGroupContent>
                         {users.map((user) => (
                             <Link
                                 to={"/chat" + `/${user.id}`}
                                 key={user.id}
                                 className={clsx(
-                                    "flex items-center gap-4 border-t p-4 text-sm leading-tight whitespace-nowrap last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground [475px]:gap-4",
+                                    "flex items-center gap-4 border-t border-claude-hairline p-4 text-sm leading-tight whitespace-nowrap text-claude-body transition-colors hover:bg-claude-surface-card hover:text-claude-ink [475px]:gap-4",
                                     !open && "px-2"
                                 )}
                                 onClick={() => setOpenMobile(false)}
@@ -65,7 +77,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                     )}
                                 >
                                     <div className="flex w-full items-center gap-2">
-                                        <span>{user.display_name || "Anonymous User"}</span>
+                                        <span className="text-sm font-medium text-claude-ink">
+                                            {user.display_name || "Anonymous User"}
+                                        </span>
                                     </div>
                                 </div>
                             </Link>

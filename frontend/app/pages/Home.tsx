@@ -37,7 +37,7 @@ export default function Home() {
                 <header className="sticky top-0 flex flex-wrap items-center justify-between gap-6 bg-claude-canvas py-8">
                     <div className="flex items-center gap-3 text-sm font-medium tracking-[0.12em] text-claude-muted uppercase">
                         <span className="inline-flex h-2 w-2 rounded-full bg-claude-primary" aria-hidden="true" />
-                        Workspace
+                        Zalem
                     </div>
                     <nav className="flex flex-wrap items-center gap-4 text-sm font-medium text-claude-body">
                         <Link to="/chat" className="transition-colors hover:text-claude-ink">
