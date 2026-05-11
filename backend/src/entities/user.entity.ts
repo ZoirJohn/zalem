@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn, CreateDateColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn, CreateDateColumn, OneToMany } from "typeorm";
+import { Message } from "./message.entity";
+import { Participant } from "./participant.entity";
 
 @Entity("users")
 export class User {
@@ -34,4 +36,10 @@ export class User {
 
 	@UpdateDateColumn()
 	updated_at!: Date;
+
+	@OneToMany(() => Participant, (participant) => participant.user)
+	conversations!: Participant[];
+
+	@OneToMany(() => Message, (message) => message.sender)
+	messages!: Message[];
 }
