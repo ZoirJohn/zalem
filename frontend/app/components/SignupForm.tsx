@@ -62,25 +62,27 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
 
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
-            <Card>
+            <Card className="border-claude-hairline bg-claude-canvas text-claude-ink">
                 <CardHeader className="text-center">
                     <CardTitle className="text-xl">Create your account</CardTitle>
-                    <CardDescription>Sign up with your Facebook or Google account</CardDescription>
+                    <CardDescription className="text-claude-body">
+                        Sign up with your Facebook or Google account
+                    </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="max-sm:px-4">
                     <form onSubmit={submit}>
                         <FieldGroup className="gap-6">
                             <Field>
-                                <Button variant="outline" type="button">
+                                <Button variant="outline" type="button" className="border-claude-hairline">
                                     <img src={Facebook} alt="Facebook logo" className="size-6" />
                                     Login with Facebook
                                 </Button>
-                                <Button variant="outline" type="button">
+                                <Button variant="outline" type="button" className="border-claude-hairline">
                                     <img src={Google} alt="Google logo" className="size-4" />
                                     Login with Google
                                 </Button>
                             </Field>
-                            <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
+                            <FieldSeparator className="text-claude-muted *:data-[slot=field-separator-content]:bg-claude-canvas">
                                 Or continue with
                             </FieldSeparator>
                             <form.Field
@@ -88,7 +90,9 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                                 children={(field) => {
                                     return (
                                         <Field>
-                                            <FieldLabel htmlFor={field.name}>Full name</FieldLabel>
+                                            <FieldLabel htmlFor={field.name} className="text-claude-body-strong">
+                                                Full name
+                                            </FieldLabel>
                                             <Input
                                                 type="text"
                                                 id={field.name}
@@ -112,7 +116,9 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                                 children={(field) => {
                                     return (
                                         <Field>
-                                            <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                                            <FieldLabel htmlFor={field.name} className="text-claude-body-strong">
+                                                Email
+                                            </FieldLabel>
                                             <Input
                                                 type="email"
                                                 id={field.name}
@@ -137,7 +143,9 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                                     children={(field) => {
                                         return (
                                             <Field>
-                                                <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+                                                <FieldLabel htmlFor={field.name} className="text-claude-body-strong">
+                                                    Password
+                                                </FieldLabel>
                                                 <Input
                                                     type="password"
                                                     id={field.name}
@@ -163,7 +171,9 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                                     children={(field) => {
                                         return (
                                             <Field>
-                                                <FieldLabel htmlFor={field.name}>Confirm Password</FieldLabel>
+                                                <FieldLabel htmlFor={field.name} className="text-claude-body-strong">
+                                                    Confirm Password
+                                                </FieldLabel>
                                                 <Input
                                                     type="password"
                                                     id={field.name}
@@ -189,9 +199,20 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                                 children={([state]) => {
                                     return (
                                         <Field>
-                                            <Button type="submit">Create Account</Button>
-                                            <FieldDescription className="text-center">
-                                                Already have an account? <NavLink to="/login">Sign in</NavLink>
+                                            <Button
+                                                type="submit"
+                                                className="bg-claude-primary text-white hover:bg-claude-primary-active"
+                                            >
+                                                Create Account
+                                            </Button>
+                                            <FieldDescription className="text-center text-claude-body">
+                                                Already have an account?{" "}
+                                                <NavLink
+                                                    className="text-claude-primary hover:text-claude-primary-active"
+                                                    to="/login"
+                                                >
+                                                    Sign in
+                                                </NavLink>
                                             </FieldDescription>
                                         </Field>
                                     )

@@ -55,25 +55,37 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     }
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
-            <Card>
+            <Card className="border-claude-hairline bg-claude-canvas text-claude-ink">
                 <CardHeader className="text-center">
                     <CardTitle className="text-xl">Welcome back</CardTitle>
-                    <CardDescription>Login with your Facebook or Google account</CardDescription>
+                    <CardDescription className="text-claude-body">
+                        Login with your Facebook or Google account
+                    </CardDescription>
                 </CardHeader>
                 <CardContent className="max-sm:px-4">
                     <form onSubmit={submit}>
                         <FieldGroup className="gap-6">
                             <Field>
-                                <Button variant="outline" type="button" onClick={loginWithFacebook}>
+                                <Button
+                                    variant="outline"
+                                    type="button"
+                                    onClick={loginWithFacebook}
+                                    className="border-claude-hairline"
+                                >
                                     <img src={Facebook} alt="Facebook logo" className="size-6" />
                                     Login with Facebook
                                 </Button>
-                                <Button variant="outline" type="button" onClick={loginWithGoogle}>
+                                <Button
+                                    variant="outline"
+                                    type="button"
+                                    onClick={loginWithGoogle}
+                                    className="border-claude-hairline"
+                                >
                                     <img src={Google} alt="Google logo" className="size-4" />
                                     Login with Google
                                 </Button>
                             </Field>
-                            <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
+                            <FieldSeparator className="text-claude-muted *:data-[slot=field-separator-content]:bg-claude-canvas">
                                 Or continue with
                             </FieldSeparator>
 
@@ -82,7 +94,9 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                                 children={(field) => {
                                     return (
                                         <Field>
-                                            <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                                            <FieldLabel htmlFor={field.name} className="text-claude-body-strong">
+                                                Email
+                                            </FieldLabel>
                                             <Input
                                                 id={field.name}
                                                 name={field.name}
@@ -109,10 +123,12 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                                     return (
                                         <Field>
                                             <div className="flex items-center">
-                                                <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+                                                <FieldLabel htmlFor={field.name} className="text-claude-body-strong">
+                                                    Password
+                                                </FieldLabel>
                                                 <a
                                                     href="#"
-                                                    className="ml-auto text-sm underline-offset-4 hover:underline"
+                                                    className="ml-auto text-sm text-claude-muted underline-offset-4 hover:text-claude-ink hover:underline"
                                                 >
                                                     Forgot your password?
                                                 </a>
@@ -137,11 +153,20 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                             ></form.Field>
 
                             <Field>
-                                <Button type="submit" role="button" name="login-button" data-testid="login-button">
+                                <Button
+                                    type="submit"
+                                    role="button"
+                                    name="login-button"
+                                    data-testid="login-button"
+                                    className="bg-claude-primary text-white hover:bg-claude-primary-active"
+                                >
                                     Login
                                 </Button>
-                                <FieldDescription className="text-center">
-                                    Don&apos;t have an account? <Link to="/signup">Sign up</Link>
+                                <FieldDescription className="text-center text-claude-body">
+                                    Don&apos;t have an account?{" "}
+                                    <Link className="text-claude-primary hover:text-claude-primary-active" to="/signup">
+                                        Sign up
+                                    </Link>
                                 </FieldDescription>
                             </Field>
                         </FieldGroup>
