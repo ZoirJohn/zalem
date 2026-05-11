@@ -168,6 +168,13 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                                         Sign up
                                     </Link>
                                 </FieldDescription>
+                                <Link
+                                    to="/"
+                                    className="mt-2 inline-flex items-center justify-center gap-2 text-sm text-claude-muted hover:text-claude-ink"
+                                >
+                                    <span aria-hidden="true">←</span>
+                                    Back to home
+                                </Link>
                             </Field>
                         </FieldGroup>
                     </form>

@@ -33,8 +33,8 @@ export default function Home() {
 
     return (
         <section className="bg-claude-canvas text-claude-ink">
-            <div className="mx-auto flex min-h-dvh max-w-[1200px] flex-col gap-8 px-6 py-8 sm:gap-16 sm:px-10 lg:px-12">
-                <header className="flex flex-wrap items-center justify-between gap-6">
+            <div className="mx-auto flex min-h-dvh max-w-[1200px] flex-col gap-8 px-6 pb-8 sm:gap-16 sm:px-10 lg:px-12">
+                <header className="sticky top-0 flex flex-wrap items-center justify-between gap-6 bg-claude-canvas py-8">
                     <div className="flex items-center gap-3 text-sm font-medium tracking-[0.12em] text-claude-muted uppercase">
                         <span className="inline-flex h-2 w-2 rounded-full bg-claude-primary" aria-hidden="true" />
                         Workspace

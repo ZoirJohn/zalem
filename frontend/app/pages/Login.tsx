@@ -1,3 +1,4 @@
+import { Link, useNavigate } from "react-router"
 import { LoginForm } from "~/components/LoginForm"
 import Protected from "~/components/Protected"
 
@@ -5,7 +6,7 @@ export default function LoginPage() {
     return (
         <Protected shouldUserExist="N" redirectTo="/chat">
             <div className="flex min-h-dvh flex-col items-center justify-center bg-muted p-2 sm:p-6 md:p-10">
-                <div className="flex w-full max-w-sm flex-col gap-2 sm:gap-6">
+                <div className="sm:gap-6relative flex w-full max-w-sm flex-col gap-2">
                     <LoginForm />
                 </div>
             </div>

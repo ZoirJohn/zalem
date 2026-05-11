@@ -3,7 +3,7 @@ import { Button } from "~/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card"
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldSeparator } from "~/components/ui/field"
 import { Input } from "~/components/ui/input"
-import { NavLink } from "react-router"
+import { Link } from "react-router"
 import { useForm } from "@tanstack/react-form"
 import { type SubmitEventHandler } from "react"
 import { toast } from "sonner"
@@ -207,13 +207,20 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                                             </Button>
                                             <FieldDescription className="text-center text-claude-body">
                                                 Already have an account?{" "}
-                                                <NavLink
+                                                <Link
                                                     className="text-claude-primary hover:text-claude-primary-active"
                                                     to="/login"
                                                 >
                                                     Sign in
-                                                </NavLink>
+                                                </Link>
                                             </FieldDescription>
+                                            <Link
+                                                to="/"
+                                                className="mt-2 inline-flex items-center justify-center gap-2 text-sm text-claude-muted hover:text-claude-ink"
+                                            >
+                                                <span aria-hidden="true">←</span>
+                                                Back to home
+                                            </Link>
                                         </Field>
                                     )
                                 }}
