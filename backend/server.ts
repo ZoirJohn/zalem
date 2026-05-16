@@ -2,15 +2,14 @@ import "dotenv/config";
 import "reflect-metadata";
 import "./src/services/passport.service";
 import express from "express";
-import session from "express-session";
-import passport from "passport";
+import { passportInitialize, passportSession, sessionMiddleware } from "./config";
 import router from "./src/routes";
 import cors from "cors";
 import morgan from "morgan";
 import ErrorMiddleware from "./src/middlewares/error.middleware";
 import { ChatController } from "./src/controllers/chat.controller";
 import { createServer } from "node:http";
-import { corsOptions, sessionOptions } from "./src/utils/options";
+import { corsOptions } from "./src/utils/options";
 import { AppDataSource } from "./data-source";
 
 async function bootstrap() {
@@ -20,9 +19,9 @@ async function bootstrap() {
 	app.use(express.json());
 	app.use(cors(corsOptions));
 	app.use(express.urlencoded({ extended: true }));
-	app.use(session(sessionOptions));
-	app.use(passport.initialize());
-	app.use(passport.session());
+	app.use(sessionMiddleware);
+	app.use(passportInitialize);
+	app.use(passportSession);
 
 	app.use(morgan("tiny"));
 	app.use("/api", router);
