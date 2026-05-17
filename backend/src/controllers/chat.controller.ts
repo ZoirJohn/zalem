@@ -3,6 +3,7 @@ import { WebSocketServer, WebSocket } from "ws";
 import { Server } from "http";
 import { passportInitialize, passportSession, sessionMiddleware } from "../../config";
 import { Request, RequestHandler, Response } from "express";
+import { User } from "../entities/user.entity";
 
 export class ChatController {
 	private socket: WebSocketServer;
@@ -43,7 +44,7 @@ export class ChatController {
 			ws.on("message", (message: string) => {
 				try {
 					const parsed = JSON.parse(message);
-					this.sendMessage(parsed.recipientId, parsed);
+					this.sendMessage(req.user!, parsed.recipientId, parsed);
 				} catch (error) {
 					ws.send(JSON.stringify({ error: "Invalid message format" }));
 				}
@@ -55,15 +56,17 @@ export class ChatController {
 		});
 	}
 
-	private sendMessage(recipientId: string, message: object) {
+	private sendMessage(user: User, recipientId: string, message: object) {
 		const recipient = this.clients.get(recipientId);
-		if (recipient?.readyState === WebSocket.OPEN) {
-			recipient.send(
-				JSON.stringify({
-					id: crypto.randomUUID(),
-					...message,
-				}),
-			);
+		const sender = this.clients.get(user.id)!;
+
+		if (recipient?.readyState === WebSocket.OPEN && sender.readyState === WebSocket.OPEN) {
+			const payload = JSON.stringify({
+				id: crypto.randomUUID(),
+				...message,
+			});
+			recipient.send(payload);
+			sender.send(payload);
 		}
 	}
 }
