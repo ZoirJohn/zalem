@@ -1,6 +1,7 @@
 import { ScrollArea, ScrollBar } from "../ui/scroll-area"
 import { useEffect, useRef, useState, type SubmitEventHandler } from "react"
 import ChatForm from "./ChatForm"
+import { useParams } from "react-router"
 
 interface ChatRoomProps {
     senderId: string
@@ -20,7 +21,7 @@ export default function ChatRoom(props: ChatRoomProps) {
     const socket = useRef<WebSocket | null>(null)
     const isIntentionalClose = useRef(false)
     const [messages, setMessages] = useState<Message[]>([])
-
+    const params = useParams()
     useEffect(() => {
         const connect = () => {
             const ws = new WebSocket(import.meta.env.VITE_WS_URL)
@@ -67,12 +68,10 @@ export default function ChatRoom(props: ChatRoomProps) {
                 id: crypto.randomUUID(),
                 message,
                 event: "message",
-                sender: props.senderId,
-                receiver: props.receiverId,
+                receiverId: params.userId,
             })
         )
     }
-
     return (
         <section className="flex h-[calc(100dvh-65px)] flex-col gap-4 bg-claude-canvas px-4 py-5 sm:px-6">
             <ScrollArea className="flex h-[calc(100%-180px)] w-full flex-col rounded-[16px] border border-claude-hairline bg-claude-canvas">

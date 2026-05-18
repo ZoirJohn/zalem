@@ -44,7 +44,7 @@ export class ChatController {
 			ws.on("message", (message: string) => {
 				try {
 					const parsed = JSON.parse(message);
-					this.sendMessage(req.user!, parsed.recipientId, parsed);
+					this.sendMessage(req.user!, parsed.receiverId, parsed);
 				} catch (error) {
 					ws.send(JSON.stringify({ error: "Invalid message format" }));
 				}
@@ -56,16 +56,17 @@ export class ChatController {
 		});
 	}
 
-	private sendMessage(user: User, recipientId: string, message: object) {
-		const recipient = this.clients.get(recipientId);
+	private sendMessage(user: User, receiverId: string, message: object) {
+		const recipient = this.clients.get(receiverId);
 		const sender = this.clients.get(user.id)!;
-
 		if (recipient?.readyState === WebSocket.OPEN && sender.readyState === WebSocket.OPEN) {
 			const payload = JSON.stringify({
 				id: crypto.randomUUID(),
 				...message,
 			});
-			recipient.send(payload);
+			if (recipient !== sender) {
+				recipient.send(payload);
+			}
 			sender.send(payload);
 		}
 	}
