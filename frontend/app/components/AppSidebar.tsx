@@ -10,16 +10,15 @@ import {
     useSidebar,
 } from "~/components/ui/sidebar"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { Cancel01Icon } from "@hugeicons/core-free-icons"
-import { Link } from "react-router"
+import { Bookmark02Icon, Cancel01Icon } from "@hugeicons/core-free-icons"
+import { NavLink } from "react-router"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Button } from "./ui/button"
 import { useState } from "react"
-import type { User } from "~/types"
 import clsx from "clsx"
 import { useUsers } from "~/hooks/useUsers"
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar> & { currentUserId: string | undefined }) {
     const { isMobile, open, setOpenMobile } = useSidebar()
     const [value, setValue] = useState("")
     const { users } = useUsers()
@@ -55,35 +54,71 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarContent className="bg-claude-canvas">
                 <SidebarGroup className="p-0">
                     <SidebarGroupContent>
-                        {users.map((user) => (
-                            <Link
-                                to={"/chat" + `/${user.id}`}
-                                key={user.id}
-                                className={clsx(
-                                    "flex items-center gap-4 border-t border-claude-hairline p-4 text-sm leading-tight whitespace-nowrap text-claude-body transition-colors hover:bg-claude-surface-card hover:text-claude-ink [475px]:gap-4",
-                                    !open && "px-2"
-                                )}
-                                onClick={() => setOpenMobile(false)}
-                            >
-                                <Avatar className={clsx(open && "size-12", !open && "size-8", "size-8")}>
-                                    <AvatarImage src="https://github.com/shadcn.png" />
-                                    <AvatarFallback>CN</AvatarFallback>
-                                </Avatar>
-                                <div
-                                    className={clsx(
-                                        open && !isMobile && "flex flex-col",
-                                        !open && !isMobile && "hidden",
-                                        "gap-1"
-                                    )}
+                        {users.map((user) =>
+                            props.currentUserId === user.id ? (
+                                <NavLink
+                                    to={"/chat" + `/${user.id}`}
+                                    key={user.id}
+                                    className={({ isActive }) =>
+                                        clsx(
+                                            "flex items-center gap-4 border-t border-claude-hairline p-4 text-sm leading-tight whitespace-nowrap text-claude-body transition-colors hover:bg-claude-surface-card hover:text-claude-ink [475px]:gap-4",
+                                            !open && "px-2",
+                                            isActive && "bg-claude-surface-card font-medium text-claude-ink"
+                                        )
+                                    }
+                                    onClick={() => setOpenMobile(false)}
                                 >
-                                    <div className="flex w-full items-center gap-2">
-                                        <span className="text-sm font-medium text-claude-ink">
-                                            {user.display_name || "Anonymous User"}
-                                        </span>
+                                    <Avatar className={clsx(open && "size-12", !open && "size-8", "size-8")}>
+                                        <AvatarImage src="" />
+                                        <AvatarFallback>
+                                            <HugeiconsIcon icon={Bookmark02Icon} className="size-5" />
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    <div
+                                        className={clsx(
+                                            open && !isMobile && "flex flex-col",
+                                            !open && !isMobile && "hidden",
+                                            "gap-1"
+                                        )}
+                                    >
+                                        <div className="flex w-full items-center gap-2">
+                                            <span className="text-sm font-medium text-claude-ink">Saved Messages</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </Link>
-                        ))}
+                                </NavLink>
+                            ) : (
+                                <NavLink
+                                    to={"/chat" + `/${user.id}`}
+                                    key={user.id}
+                                    className={({ isActive }) =>
+                                        clsx(
+                                            "flex items-center gap-4 border-t border-claude-hairline p-4 text-sm leading-tight whitespace-nowrap text-claude-body transition-colors hover:bg-claude-surface-card hover:text-claude-ink [475px]:gap-4",
+                                            !open && "px-2",
+                                            isActive && "bg-claude-surface-card font-medium text-claude-ink"
+                                        )
+                                    }
+                                    onClick={() => setOpenMobile(false)}
+                                >
+                                    <Avatar className={clsx(open && "size-12", !open && "size-8", "size-8")}>
+                                        <AvatarImage />
+                                        <AvatarFallback>{user.display_name?.[0]}</AvatarFallback>
+                                    </Avatar>
+                                    <div
+                                        className={clsx(
+                                            open && !isMobile && "flex flex-col",
+                                            !open && !isMobile && "hidden",
+                                            "gap-1"
+                                        )}
+                                    >
+                                        <div className="flex w-full items-center gap-2">
+                                            <span className="text-sm font-medium text-claude-ink">
+                                                {user.display_name || "Anonymous User"}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </NavLink>
+                            )
+                        )}
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
