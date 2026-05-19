@@ -31,12 +31,18 @@ export default function ChatForm(props: ChatFormProps) {
                         return (
                             <Textarea
                                 placeholder="Write a message..."
-                                className="min-h-[120px] w-full resize-none rounded-[8px] border border-claude-hairline bg-claude-canvas text-sm break-all text-claude-ink placeholder:text-claude-muted focus-visible:border-claude-primary focus-visible:ring-2 focus-visible:ring-claude-primary/20"
+                                className="min-h-30 w-full resize-none rounded-[8px] border border-claude-hairline bg-claude-canvas text-sm break-all text-claude-ink placeholder:text-claude-muted focus-visible:border-claude-primary focus-visible:ring-2 focus-visible:ring-claude-primary/20"
                                 id={field.name}
                                 name={field.name}
                                 value={field.state.value}
                                 onBlur={field.handleBlur}
                                 onChange={(e) => field.handleChange(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" && !e.shiftKey) {
+                                        e.preventDefault()
+                                        e.currentTarget.form?.requestSubmit()
+                                    }
+                                }}
                             />
                         )
                     }}
