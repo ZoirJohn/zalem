@@ -1,12 +1,7 @@
-import { ScrollArea, ScrollBar } from "../ui/scroll-area"
-import { useEffect, useRef, useState, type ReactNode, type SubmitEventHandler } from "react"
+import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area"
+import { useEffect, useRef, useState, } from "react"
 import ChatForm from "./ChatForm"
 import { useParams } from "react-router"
-
-interface ChatRoomProps {
-    senderId: string
-    receiverId: string
-}
 
 interface Message {
     id: string
@@ -16,7 +11,7 @@ interface Message {
     receiverId: string
 }
 
-export default function ChatRoom(props: ChatRoomProps) {
+export default function ChatRoom() {
     const retryDelay = useRef(5000)
     const socket = useRef<WebSocket | null>(null)
     const scrollable = useRef<HTMLDivElement>(null)

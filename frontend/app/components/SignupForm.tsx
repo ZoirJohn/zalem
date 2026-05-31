@@ -44,7 +44,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
             try {
                 await API_REQUEST.register(email, password, username)
                 toast.success("Account created successfully", { duration: 4000 })
-            } catch (error) {
+            } catch  {
                 toast.error("Failed to create account", { duration: 4000 })
             }
         },
@@ -196,7 +196,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
                             </Field>
                             <form.Subscribe
                                 selector={(state) => [state]}
-                                children={([state]) => {
+                                children={() => {
                                     return (
                                         <Field>
                                             <Button

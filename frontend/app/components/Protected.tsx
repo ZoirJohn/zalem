@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, type ReactNode } from "react"
+import { useContext,  type ReactNode } from "react"
 import { Navigate } from "react-router"
 import { AuthContext } from "~/context/AuthContext"
 
@@ -11,7 +11,7 @@ export default function Authenticated({
     shouldUserExist: "Y" | "N"
     redirectTo: string
 }) {
-    const { user, loading } = useContext(AuthContext)
+    const { user,  } = useContext(AuthContext)
 
     const condition = shouldUserExist == "Y" ? !user?.id : user?.id
     if (condition) {
