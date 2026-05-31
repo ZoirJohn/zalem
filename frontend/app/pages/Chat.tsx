@@ -1,7 +1,7 @@
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { useContext, useMemo } from "react"
-import { Link, Outlet, useLocation, useParams } from "react-router"
+import { Link, Outlet, useParams } from "react-router"
 import { AppSidebar } from "~/components/AppSidebar"
 import Protected from "~/components/Protected"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage } from "~/components/ui/breadcrumb"
