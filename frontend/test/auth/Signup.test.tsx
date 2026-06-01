@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react"
 import { MemoryRouter } from "react-router"
 import { mockRegister } from "test/mocks/api.mock"
-import { SignupForm } from "~/components/SignupForm"
+import { SignupForm } from "~/features/Signup/SignupForm"
 import { screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 

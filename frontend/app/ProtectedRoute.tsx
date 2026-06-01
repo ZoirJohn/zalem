@@ -1,8 +1,8 @@
-import { useContext,  type ReactNode } from "react"
+import { type ReactNode } from "react"
 import { Navigate } from "react-router"
-import { AuthContext } from "~/context/AuthContext"
+import { useCurrentUserStore } from "~/services/store"
 
-export default function Authenticated({
+export function ProtectedRoute({
     children,
     shouldUserExist,
     redirectTo,
@@ -11,7 +11,7 @@ export default function Authenticated({
     shouldUserExist: "Y" | "N"
     redirectTo: string
 }) {
-    const { user,  } = useContext(AuthContext)
+    const { user } = useCurrentUserStore()
 
     const condition = shouldUserExist == "Y" ? !user?.id : user?.id
     if (condition) {

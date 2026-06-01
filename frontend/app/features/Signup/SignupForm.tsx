@@ -7,7 +7,7 @@ import { Link } from "react-router"
 import { useForm } from "@tanstack/react-form"
 import { type SubmitEventHandler } from "react"
 import { toast } from "sonner"
-import API_REQUEST from "~/server/api"
+import API_REQUEST from "~/services/api"
 import Facebook from "~/assets/img/facebook.svg"
 import Google from "~/assets/img/google.svg"
 import * as zod from "zod"
@@ -44,7 +44,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
             try {
                 await API_REQUEST.register(email, password, username)
                 toast.success("Account created successfully", { duration: 4000 })
-            } catch  {
+            } catch {
                 toast.error("Failed to create account", { duration: 4000 })
             }
         },

@@ -16,12 +16,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Button } from "./ui/button"
 import { useState } from "react"
 import clsx from "clsx"
-import { useUsers } from "~/hooks/useUsers"
+import type { ChatUser } from "~/types"
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar> & { currentUserId: string | undefined }) {
+export function AppSidebar({
+    users,
+    currentUserId,
+    ...props
+}: React.ComponentProps<typeof Sidebar> & { currentUserId: string | undefined; users: ChatUser[] }) {
     const { isMobile, open, setOpenMobile } = useSidebar()
     const [value, setValue] = useState("")
-    const { users } = useUsers()
     return (
         <Sidebar
             collapsible="icon"
@@ -55,7 +58,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar> & 
                 <SidebarGroup className="p-0">
                     <SidebarGroupContent>
                         {users.map((user) =>
-                            props.currentUserId === user.id ? (
+                            currentUserId === user.id ? (
                                 <NavLink
                                     to={"/chat" + `/${user.id}`}
                                     key={user.id}

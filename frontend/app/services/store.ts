@@ -1,6 +1,6 @@
 import { create } from "zustand"
 import API_REQUEST from "~/server/api"
-import type { ChatUser } from "~/types"
+import type { ChatUser, User } from "~/types"
 
 interface UsersStore {
     users: ChatUser[]
@@ -9,7 +9,7 @@ interface UsersStore {
     fetchUsers: () => Promise<void>
 }
 
-export const useUsersStore = create<UsersStore>((set, get) => ({
+export const useUsersStore = create<UsersStore>()((set, get) => ({
     users: [],
     loading: false,
     fetched: false,
@@ -25,4 +25,12 @@ export const useUsersStore = create<UsersStore>((set, get) => ({
             set({ loading: false })
         }
     },
+}))
+
+interface CurrentUserStore {
+    user: User | null
+}
+
+export const useCurrentUserStore = create<CurrentUserStore>()((set, get) => ({
+    user: null,
 }))

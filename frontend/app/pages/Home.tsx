@@ -1,12 +1,13 @@
 import { Link } from "react-router"
 import { Button } from "~/components/ui/button"
+import { useCurrentUserStore } from "~/services/store"
 
 export function meta() {
     return [{ title: "Home" }, { name: "description", content: "Homepage" }]
 }
 
 export default function Home() {
-    const isProfileEnabled = false
+    const { user } = useCurrentUserStore()
     const projects = [
         {
             title: "Chat",
@@ -33,7 +34,7 @@ export default function Home() {
 
     return (
         <section className="bg-claude-canvas text-claude-ink">
-            <div className="mx-auto flex min-h-dvh max-w-[1200px] flex-col gap-8 px-6 pb-8 sm:gap-16 sm:px-10 lg:px-12">
+            <div className="mx-auto flex min-h-dvh max-w-300 flex-col gap-8 px-6 pb-8 sm:gap-16 sm:px-10 lg:px-12">
                 <header className="sticky top-0 flex flex-wrap items-center justify-between gap-6 bg-claude-canvas py-8">
                     <div className="flex items-center gap-3 text-sm font-medium tracking-[0.12em] text-claude-muted uppercase">
                         <span className="inline-flex h-2 w-2 rounded-full bg-claude-primary" aria-hidden="true" />
@@ -156,7 +157,7 @@ export default function Home() {
                         Keep your workspace, saved runs, and personal preferences in one calm place.
                     </p>
                     <div className="mt-6">
-                        {isProfileEnabled ? (
+                        {user ? (
                             <Link
                                 to="/profile"
                                 className="text-sm font-medium text-claude-primary transition-colors hover:text-claude-primary-active"

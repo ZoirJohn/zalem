@@ -51,12 +51,12 @@ type RouteFiles = {
     id: "pages/Chat";
     page: "/chat" | "/chat/:userId";
   };
-  "./components/Chat/Main.tsx": {
-    id: "components/Chat/Main";
+  "./features/Chat/Main.tsx": {
+    id: "features/Chat/Main";
     page: "/chat";
   };
-  "./components/Chat/ChatRoom.tsx": {
-    id: "components/Chat/ChatRoom";
+  "./features/Chat/ChatRoom.tsx": {
+    id: "features/Chat/ChatRoom";
     page: "/chat/:userId";
   };
 };
@@ -67,6 +67,6 @@ type RouteModules = {
   "pages/Login": typeof import("./app/./pages/Login.tsx");
   "pages/Signup": typeof import("./app/./pages/Signup.tsx");
   "pages/Chat": typeof import("./app/./pages/Chat.tsx");
-  "components/Chat/Main": typeof import("./app/./components/Chat/Main.tsx");
-  "components/Chat/ChatRoom": typeof import("./app/./components/Chat/ChatRoom.tsx");
+  "features/Chat/Main": typeof import("./app/./features/Chat/Main.tsx");
+  "features/Chat/ChatRoom": typeof import("./app/./features/Chat/ChatRoom.tsx");
 };

@@ -1,12 +1,11 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse } from "react-router"
-import type { Route } from "./+types/root"
 import "./app.css"
 import { TooltipProvider } from "./components/ui/tooltip"
 import { Toaster } from "sonner"
-import { AuthContext } from "./context/AuthContext"
 import { useEffect, useState } from "react"
+import API_REQUEST from "./services/api"
 import type { User } from "./types"
-import API_REQUEST from "./server/api"
+import type { Route } from "./+types/root"
 
 export function Layout({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null)
@@ -18,7 +17,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             .catch(() => setUser(null))
             .finally(() => setLoading(false))
     }, [])
-	
+
     return (
         <html lang="en" role="main">
             <head>
@@ -30,9 +29,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </head>
             <body>
                 <TooltipProvider>
-                    <AuthContext value={{ user, loading }}>
-                        <div id="wrapper">{children}</div>
-                    </AuthContext>
+                    <div id="wrapper">{children}</div>
                     <Toaster />
                 </TooltipProvider>
 
