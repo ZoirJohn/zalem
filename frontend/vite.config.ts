@@ -4,15 +4,4 @@ import tailwindcss from "@tailwindcss/vite"
 
 export default defineConfig({
     plugins: [tailwindcss(), reactRouter()],
-    build: {
-        cssCodeSplit: false,
-    },
-    resolve: {
-        tsconfigPaths: true,
-    },
-    server: {
-        hmr: {
-            overlay: false,
-        },
-    },
 })
