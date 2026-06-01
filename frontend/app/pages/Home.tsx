@@ -1,6 +1,6 @@
 import { Link } from "react-router"
 import { Button } from "~/components/ui/button"
-import { useCurrentUserStore } from "store/store"
+import { useCurrentUserStore } from "~/store/store"
 
 export function meta() {
     return [{ title: "Home" }, { name: "description", content: "Homepage" }]

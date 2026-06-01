@@ -4,14 +4,14 @@ import { TooltipProvider } from "./components/ui/tooltip"
 import { toast, Toaster } from "sonner"
 import { useEffect, useState } from "react"
 import type { Route } from "./+types/root"
-import { useUsersStore } from "../store/store"
+import { useUsersStore } from "./store/store"
 
 export function Layout({ children }: { children: React.ReactNode }) {
     const { fetchUsers, error } = useUsersStore()
     useEffect(() => {
         fetchUsers()
     }, [])
-	
+
     return (
         <html lang="en" role="main">
             <head>
