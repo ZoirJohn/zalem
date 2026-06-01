@@ -5,7 +5,7 @@ import { AppSidebar } from "~/components/AppSidebar"
 import { ProtectedRoute } from "~/ProtectedRoute"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage } from "~/components/ui/breadcrumb"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar"
-import { useCurrentUserStore, useUsersStore } from "~/services/store"
+import { useCurrentUserStore, useUsersStore } from "store/store"
 
 export default function Dashboard() {
     const { userId } = useParams()

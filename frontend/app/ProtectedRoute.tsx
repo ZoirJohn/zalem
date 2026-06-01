@@ -1,6 +1,6 @@
 import { type ReactNode } from "react"
 import { Navigate } from "react-router"
-import { useCurrentUserStore } from "~/services/store"
+import { useCurrentUserStore } from "store/store"
 
 export function ProtectedRoute({
     children,

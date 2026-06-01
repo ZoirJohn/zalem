@@ -1,23 +1,17 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse } from "react-router"
 import "./app.css"
 import { TooltipProvider } from "./components/ui/tooltip"
-import { Toaster } from "sonner"
+import { toast, Toaster } from "sonner"
 import { useEffect, useState } from "react"
-import API_REQUEST from "./services/api"
-import type { User } from "./types"
 import type { Route } from "./+types/root"
+import { useUsersStore } from "../store/store"
 
 export function Layout({ children }: { children: React.ReactNode }) {
-    const [user, setUser] = useState<User | null>(null)
-    const [loading, setLoading] = useState(true)
-
+    const { fetchUsers, error } = useUsersStore()
     useEffect(() => {
-        API_REQUEST.me()
-            .then((d) => setUser(d.user))
-            .catch(() => setUser(null))
-            .finally(() => setLoading(false))
+        fetchUsers()
     }, [])
-
+	
     return (
         <html lang="en" role="main">
             <head>

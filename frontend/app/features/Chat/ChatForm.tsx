@@ -1,7 +1,7 @@
-import { Textarea } from "../ui/textarea"
-import { Button } from "../ui/button"
 import { useForm } from "@tanstack/react-form"
 import type { SubmitEventHandler } from "react"
+import { Button } from "~/components/ui/button"
+import { Textarea } from "~/components/ui/textarea"
 
 interface ChatFormProps {
     sendMessage: (message: string) => void
