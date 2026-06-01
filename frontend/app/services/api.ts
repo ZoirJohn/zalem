@@ -1,58 +1,41 @@
-import { fetchData } from "~/lib/utils"
+import { create } from "zustand";
+import { toast } from "sonner";
 
-class API_REQUEST {
-    private API_URL = import.meta.env.VITE_API_URL
-    private ENDPOINT = {
-        register: this.API_URL + "/auth/register",
-        login: this.API_URL + "/auth/login",
-        loginWithGoogle: this.API_URL + "/auth/google",
-        loginWithFacebook: this.API_URL + "/auth/facebook",
-
-        me: this.API_URL + "/users/me",
-        users: this.API_URL + "/users",
-    }
-    async register(email: string, password: string, username: string) {
-        const body = JSON.stringify({ email, password, displayName: username })
-        const res = await fetch(this.ENDPOINT.register, {
-            body,
-            headers: { "Content-Type": "application/json" },
-            method: "POST",
-            credentials: "include",
-        })
-        const data = await res.json()
-        if (!res.ok) {
-            throw new Error(data.message)
-        }
-        return data
-    }
-    async login(email: string, password: string) {
-        const body = JSON.stringify({ email, password })
-        const res = await fetch(this.ENDPOINT.login, {
-            body,
-            headers: { "Content-Type": "application/json" },
-            method: "POST",
-            credentials: "include",
-        })
-        const data = await res.json()
-        if (!res.ok) {
-            throw new Error(data.message)
-        }
-        return data
-    }
-    async loginWithGoogle() {
-        window.location.href = this.ENDPOINT.loginWithGoogle
-    }
-    async loginWithFacebook() {
-        window.location.href = this.ENDPOINT.loginWithFacebook
-    }
-
-    async me() {
-        return fetchData(this.ENDPOINT.me)
-    }
-
-    async users() {
-        return fetchData(this.ENDPOINT.users)
-    }
+interface UsersStore {
+	users: ChatUser[];
+	loading: boolean;
+	error: string;
+	fetchUsers: () => Promise<void>;
 }
 
-export default new API_REQUEST()
+export const useUsersStore = create<UsersStore>()((set, get) => ({
+	users: [],
+	loading: false,
+	error: "",
+	selectedUser: null,
+
+	fetchUsers: async () => {
+		if (get().users.length) return;
+		set({ loading: true });
+		try {
+			const data = await API_REQUEST.users();
+			set({ users: data.users });
+		} catch (error) {
+			if (error instanceof Error) {
+				const error = "Error fetching users";
+				set({ error });
+				toast.error(error, { duration: 4000 });
+			}
+		} finally {
+			set({ loading: false });
+		}
+	},
+}));
+
+interface CurrentUserStore {
+	user: User | null;
+}
+
+export const useCurrentUserStore = create<CurrentUserStore>()((_, __) => ({
+	user: null,
+}));
