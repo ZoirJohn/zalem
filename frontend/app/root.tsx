@@ -2,9 +2,17 @@ import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration }
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
+import { useCurrentUserStore, useUsersStore } from "./store/store";
 
 export function Layout({ children }: { children: ReactNode }) {
+	const { fetchUsers } = useUsersStore();
+	const { user, fetchCurrentUser } = useCurrentUserStore();
+	useEffect(() => {
+		fetchUsers();
+		fetchCurrentUser();
+	}, []);
+
 	return (
 		<html lang="en">
 			<head>
@@ -14,7 +22,6 @@ export function Layout({ children }: { children: ReactNode }) {
 				<Links />
 			</head>
 			<body>
-				
 				<div id="wrapper">{children}</div>
 				<ScrollRestoration />
 				<Scripts />

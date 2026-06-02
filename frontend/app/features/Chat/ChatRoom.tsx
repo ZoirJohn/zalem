@@ -17,7 +17,7 @@ export default function ChatRoom() {
 	const scrollable = useRef<HTMLDivElement>(null);
 	const isIntentionalClose = useRef(false);
 	const [messages, setMessages] = useState<Message[]>([]);
-	const params = useParams();
+	const { userId } = useParams();
 
 	useEffect(() => {
 		const connect = () => {
@@ -63,7 +63,7 @@ export default function ChatRoom() {
 			socket.current?.close();
 			document.removeEventListener("visibilitychange", visibilityChange);
 		};
-	}, []);
+	}, [userId]);
 	const sendMessage = (message: string) => {
 		if (socket.current?.readyState !== WebSocket.OPEN) return;
 		socket.current?.send(
@@ -71,7 +71,7 @@ export default function ChatRoom() {
 				id: crypto.randomUUID(),
 				message,
 				event: "message",
-				receiverId: params.userId,
+				receiverId: userId,
 			}),
 		);
 	};

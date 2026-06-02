@@ -14,7 +14,6 @@ export const useUsersStore = create<UsersStore>()((set, get) => ({
 	users: [],
 	loading: false,
 	error: "",
-	selectedUser: null,
 
 	fetchUsers: async () => {
 		if (get().users.length) return;
@@ -36,8 +35,30 @@ export const useUsersStore = create<UsersStore>()((set, get) => ({
 
 interface CurrentUserStore {
 	user: User | null;
+	loading: boolean;
+	error: string;
+	fetchCurrentUser: () => Promise<void>;
 }
 
-export const useCurrentUserStore = create<CurrentUserStore>()((_, __) => ({
+export const useCurrentUserStore = create<CurrentUserStore>()((set, get) => ({
 	user: null,
+	loading: false,
+	error: "",
+
+	fetchCurrentUser: async () => {
+		if (get().user) return;
+		set({ loading: true });
+		try {
+			const data = await api.me();
+			set({ user: data.user });
+		} catch (error) {
+			if (error instanceof Error) {
+				const error = "Error fetching users";
+				set({ error });
+				toast.error(error, { duration: 4000 });
+			}
+		} finally {
+			set({ loading: false });
+		}
+	},
 }));
