@@ -44,7 +44,6 @@ export class ChatController {
 			ws.on("message", (message: string) => {
 				try {
 					const parsed = JSON.parse(message);
-					console.log(parsed);
 					this.sendMessage(req.user!, parsed.receiverId, parsed);
 				} catch (error) {
 					ws.send(JSON.stringify({ error: "Invalid message format" }));

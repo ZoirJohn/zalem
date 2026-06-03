@@ -4,9 +4,11 @@ import { Conversation } from "./src/entities/conversation.entity";
 import { Participant } from "./src/entities/participant.entity";
 import { Message } from "./src/entities/message.entity";
 
+
+
 export const AppDataSource = new DataSource({
 	type: "postgres",
-	synchronize: false,
+	synchronize: true,
 	host: process.env.DB_HOST,
 	port: parseInt(process.env.DB_PORT!),
 	username: process.env.DB_USER,
