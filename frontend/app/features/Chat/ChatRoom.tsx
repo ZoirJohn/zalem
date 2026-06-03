@@ -64,6 +64,7 @@ export default function ChatRoom() {
 			document.removeEventListener("visibilitychange", visibilityChange);
 		};
 	}, [userId]);
+	
 	const sendMessage = (message: string) => {
 		if (socket.current?.readyState !== WebSocket.OPEN) return;
 		socket.current?.send(

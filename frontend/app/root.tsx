@@ -5,9 +5,13 @@ import "./app.css";
 import { useEffect, type ReactNode } from "react";
 import { useCurrentUserStore, useUsersStore } from "./store/store";
 
+export function meta() {
+	return [{ title: "Home" }, { name: "description", content: "Homepage" }];
+}
+
 export function Layout({ children }: { children: ReactNode }) {
 	const { fetchUsers } = useUsersStore();
-	const { user, fetchCurrentUser } = useCurrentUserStore();
+	const {  fetchCurrentUser } = useCurrentUserStore();
 	useEffect(() => {
 		fetchUsers();
 		fetchCurrentUser();

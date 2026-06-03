@@ -4,15 +4,15 @@ import { Message } from "./message.entity";
 
 @Entity("conversations")
 export class Conversation {
-	@PrimaryGeneratedColumn("uuid")
-	id!: string;
+    @PrimaryGeneratedColumn("uuid")
+    id!: string;
 
-	@CreateDateColumn()
-	created_at!: Date;
+    @CreateDateColumn()
+    created_at!: Date;
 
-	@OneToMany(() => Participant, (participant) => participant.conversation)
-	participants!: Participant[];
+    @OneToMany(() => Participant, (participant) => participant.conversation, { cascade: true })
+    participants!: Participant[];
 
-	@OneToMany(() => Message, (message) => message.conversation)
-	messages!: Message[];
+    @OneToMany(() => Message, (message) => message.conversation)
+    messages!: Message[];
 }

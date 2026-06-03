@@ -1,9 +1,7 @@
 import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
 
-export function meta() {
-	return [{ title: "Home" }, { name: "description", content: "Homepage" }];
-}
+
 export default function Home() {
 	const user = null
 	const projects = [
