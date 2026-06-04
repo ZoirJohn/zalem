@@ -20,7 +20,6 @@ export default function ChatRoom() {
 	const { userId } = useParams();
 
 	
-
 	useEffect(() => {
 		const connect = () => {
 			const ws = new WebSocket(import.meta.env.VITE_WS_URL);
@@ -29,8 +28,6 @@ export default function ChatRoom() {
 			});
 			ws.addEventListener("message", (e) => {
 				const data = JSON.parse(e.data);
-				console.log(data);
-				
 				setMessages((prev) => [...prev, data]);
 
 				requestAnimationFrame(() => {

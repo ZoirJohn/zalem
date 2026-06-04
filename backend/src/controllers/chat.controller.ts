@@ -46,11 +46,8 @@ export class ChatController {
             }
 
             this.clients.set(userId, ws);
-
             ws.on("message", (message: string) => {
                 try {
-                    console.log(this.clients);
-                    
                     const { receiverId, message: content } = JSON.parse(message);
                     this.sendMessage(userId, receiverId, content);
                 } catch (error) {
@@ -59,7 +56,9 @@ export class ChatController {
             });
 
             ws.on("close", () => {
-                this.clients.delete(userId);
+                if (this.clients.get(userId) === ws) {
+                    this.clients.delete(userId);
+                }
             });
         });
     }
@@ -68,15 +67,15 @@ export class ChatController {
         const recipient = this.clients.get(receiverId);
         const sender = this.clients.get(userId);
 
-        // const conversation = await this.findOrCreateConversation(userId, receiverId);
-        // const newMessage = this.messages.create({
-        //     conversation,
-        //     content: message,
-        //     sender: { id: userId },
-        // });
-        // const savedMessage = await this.messages.save(newMessage);
+        const conversation = await this.findOrCreateConversation(userId, receiverId);
+        const newMessage = this.messages.create({
+            conversation,
+            content: message,
+            sender: { id: userId },
+        });
+        const savedMessage = await this.messages.save(newMessage);
 
-        const payload = JSON.stringify({message:"Check"});
+        const payload = JSON.stringify(savedMessage);
         if (recipient !== sender) {
             recipient?.send(payload);
         }
