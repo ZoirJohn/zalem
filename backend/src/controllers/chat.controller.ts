@@ -2,15 +2,13 @@ import { WebSocketServer, WebSocket } from "ws";
 
 import { Server } from "http";
 import { passportInitialize, passportSession, sessionMiddleware } from "../../config";
-import { Request, RequestHandler, Response } from "express";
-import { Conversation } from "../entities/conversation.entity";
+import { Request, Response } from "express";
 import { AppDataSource } from "../../data-source";
 import { Repository } from "typeorm";
-import { Participant } from "../entities/participant.entity";
 import { Message } from "../entities/message.entity";
+import ConversationService from "../services/conversation.service";
 
 export class ChatController {
-    private conversations: Repository<Conversation> = AppDataSource.getRepository(Conversation);
     private messages: Repository<Message> = AppDataSource.getRepository(Message);
     private socket: WebSocketServer;
     private clients = new Map<string, WebSocket>();
@@ -67,7 +65,7 @@ export class ChatController {
         const recipient = this.clients.get(receiverId);
         const sender = this.clients.get(userId);
 
-        const conversation = await this.findOrCreateConversation(userId, receiverId);
+        const conversation = await ConversationService.findOrCreateConversation(userId, receiverId);
         const newMessage = this.messages.create({
             conversation,
             content: message,
@@ -80,18 +78,5 @@ export class ChatController {
             recipient?.send(payload);
         }
         sender?.send(payload);
-    }
-
-    private async findOrCreateConversation(userId: string, receiverId: string) {
-        const existingConversation = await this.conversations.createQueryBuilder("c").innerJoin("c.participants", "p1", "p1.user_id=:userA", { userA: userId }).innerJoin("c.participants", "p2", "p2.user_id=:userB", { userB: receiverId }).orWhere("p1.user_id = :receiverId AND p2.user_id = :userId", { userId, receiverId }).getOne();
-        if (existingConversation) {
-            return existingConversation;
-        }
-
-        const conversation = this.conversations.create({
-            participants: [{ user: { id: userId } }, { user: { id: receiverId } }] as Participant[],
-        });
-
-        return this.conversations.save(conversation);
     }
 }

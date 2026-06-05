@@ -1,28 +1,27 @@
-import { Repository } from "typeorm";
-import { Conversation } from "../entities/conversation.entity";
-import { AppDataSource } from "../../data-source";
 import { Request, Response, NextFunction } from "express";
-import { Participant } from "../entities/participant.entity";
+import ConversationService from "../services/conversation.service";
 
 class ConversationController {
-    private conversations: Repository<Conversation> = AppDataSource.getRepository(Conversation);
-    private participants: Repository<Participant> = AppDataSource.getRepository(Participant);
     async getConversation(req: Request, res: Response, next: NextFunction) {
         try {
-            const { conversationId, senderId, receiverId } = req.params;
-
-            const conversation = await this.conversations.findOne({ where: { id: conversationId as string } });
-            if (!conversation) {
-                const newConversation = this.conversations.create({
-                    participants: [{ user_id: senderId } as Participant, { user_id: receiverId } as Participant],
-                });
-                const savedConversation = await this.conversations.save(newConversation);
-                return res.json({ conversation: savedConversation });
-            }
+            const { receiverId } = req.params;
+            const userId = req.user?.id;
+            const conversation = await ConversationService.findOrCreateConversation(userId as string, receiverId as string);
 
             return res.json({ conversation });
         } catch (error) {
-            return next(error)
+            return next(error);
+        }
+    }
+     async getMessages(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { receiverId } = req.params;
+            const userId = req.user?.id;
+            const messages = await ConversationService.getMessages(userId as string, receiverId as string);
+
+            return res.json({ messages });
+        } catch (error) {
+            return next(error);
         }
     }
 }

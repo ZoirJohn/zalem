@@ -22,6 +22,7 @@ router.get("/auth/facebook/callback", AuthController.loginWithFacebookCallback);
 router.get("/users", isAuthenticated, (req, res, next) => UserController.users(req, res, next));
 router.get("/users/me", isAuthenticated, (req, res, next) => UserController.me(req, res, next));
 
-router.get("/conversations/:conversationId", isAuthenticated, body("conversationId").isUUID(), (req, res, next) => ConversationController.getConversation(req, res, next));
+router.get("/conversations/:receiverId", isAuthenticated,  ConversationController.getConversation);
+router.get("/messages/:receiverId", isAuthenticated,  ConversationController.getMessages);
 
 export default router;

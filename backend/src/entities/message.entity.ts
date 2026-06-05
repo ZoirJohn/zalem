@@ -4,20 +4,26 @@ import { User } from "./user.entity";
 
 @Entity("messages")
 export class Message {
-	@PrimaryGeneratedColumn("uuid")
-	id!: string;
+    @PrimaryGeneratedColumn("uuid")
+    id!: string;
 
-	@ManyToOne(() => Conversation, (conversation) => conversation.messages, { onDelete: "CASCADE" })
-	@JoinColumn({ name: "conversation_id" })
-	conversation!: Conversation;
+    @ManyToOne(() => Conversation, (conversation) => conversation.messages, { onDelete: "CASCADE" })
+    @JoinColumn({ name: "conversation_id" })
+    conversation!: Conversation;
 
-	@ManyToOne(() => User, (user) => user.messages, { onDelete: "CASCADE" })
-	@JoinColumn({ name: "sender_id" })
-	sender!: User;
+    @ManyToOne(() => User, (user) => user.messages, { onDelete: "CASCADE" })
+    @JoinColumn({ name: "sender_id" })
+    sender!: User;
 
-	@Column()
-	content!: string;
+    @Column({ name: "conversation_id" })
+    conversation_id!: string;
 
-	@CreateDateColumn()
-	created_at!: Date;
+    @Column({ name: "sender_id" })
+    sender_id!: string;
+
+    @Column()
+    content!: string;
+
+    @CreateDateColumn()
+    created_at!: Date;
 }
