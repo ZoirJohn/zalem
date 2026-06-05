@@ -15,12 +15,6 @@ export class Message {
     @JoinColumn({ name: "sender_id" })
     sender!: User;
 
-    @Column({ name: "conversation_id" })
-    conversation_id!: string;
-
-    @Column({ name: "sender_id" })
-    sender_id!: string;
-
     @Column()
     content!: string;
 

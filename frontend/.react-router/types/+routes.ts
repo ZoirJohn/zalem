@@ -35,38 +35,38 @@ type RouteFiles = {
     id: "root";
     page: "/" | "/login" | "/signup" | "/chat" | "/chat/:userId";
   };
-  "./pages/Home.tsx": {
-    id: "pages/Home";
+  "../pages/Home.tsx": {
+    id: "../pages/Home";
     page: "/";
   };
-  "./pages/Login.tsx": {
-    id: "pages/Login";
+  "../pages/Login.tsx": {
+    id: "../pages/Login";
     page: "/login";
   };
-  "./pages/Signup.tsx": {
-    id: "pages/Signup";
+  "../pages/Signup.tsx": {
+    id: "../pages/Signup";
     page: "/signup";
   };
-  "./pages/Chat.tsx": {
-    id: "pages/Chat";
+  "../pages/Chat.tsx": {
+    id: "../pages/Chat";
     page: "/chat" | "/chat/:userId";
   };
-  "./features/Chat/Main.tsx": {
-    id: "features/Chat/Main";
+  "../features/Chat/Main.tsx": {
+    id: "../features/Chat/Main";
     page: "/chat";
   };
-  "./features/Chat/ChatRoom.tsx": {
-    id: "features/Chat/ChatRoom";
+  "../features/Chat/ChatRoom.tsx": {
+    id: "../features/Chat/ChatRoom";
     page: "/chat/:userId";
   };
 };
 
 type RouteModules = {
-  "root": typeof import("./app/root.tsx");
-  "pages/Home": typeof import("./app/./pages/Home.tsx");
-  "pages/Login": typeof import("./app/./pages/Login.tsx");
-  "pages/Signup": typeof import("./app/./pages/Signup.tsx");
-  "pages/Chat": typeof import("./app/./pages/Chat.tsx");
-  "features/Chat/Main": typeof import("./app/./features/Chat/Main.tsx");
-  "features/Chat/ChatRoom": typeof import("./app/./features/Chat/ChatRoom.tsx");
+  "root": typeof import("./app/config/root.tsx");
+  "../pages/Home": unknown;
+  "../pages/Login": unknown;
+  "../pages/Signup": unknown;
+  "../pages/Chat": unknown;
+  "../features/Chat/Main": unknown;
+  "../features/Chat/ChatRoom": unknown;
 };

@@ -1,9 +1,9 @@
 import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 
-import type { Route } from "./+types/root";
 import "./app.css";
 import { useEffect, type ReactNode } from "react";
-import { useCurrentUserStore, useUsersStore } from "./store/store";
+import { useCurrentUserStore, useUsersStore } from "~/store/store";
+import type { Route } from "./+types/root";
 
 export function meta() {
 	return [{ title: "Home" }, { name: "description", content: "Homepage" }];

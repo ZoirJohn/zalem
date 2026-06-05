@@ -1,14 +1,9 @@
 import { create } from "zustand";
-import type { ChatUser, User } from "~/types";
 import { api } from "~/services/api";
 import { toast } from "sonner";
+import type { CurrentUserStore, UsersStore } from "~/types";
 
-interface UsersStore {
-	users: ChatUser[];
-	loading: boolean;
-	error: string;
-	fetchUsers: () => Promise<void>;
-}
+
 
 export const useUsersStore = create<UsersStore>()((set, get) => ({
 	users: [],
@@ -33,12 +28,7 @@ export const useUsersStore = create<UsersStore>()((set, get) => ({
 	},
 }));
 
-interface CurrentUserStore {
-	user: User | null;
-	loading: boolean;
-	error: string;
-	fetchCurrentUser: () => Promise<void>;
-}
+
 
 export const useCurrentUserStore = create<CurrentUserStore>()((set, get) => ({
 	user: null,
@@ -62,3 +52,5 @@ export const useCurrentUserStore = create<CurrentUserStore>()((set, get) => ({
 		}
 	},
 }));
+
+export const useMessagesStore = create()
