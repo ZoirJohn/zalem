@@ -1,6 +1,6 @@
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useParams } from "react-router";
 import { AppSidebar } from "~/components/AppSidebar";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage } from "~/components/ui/breadcrumb";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";

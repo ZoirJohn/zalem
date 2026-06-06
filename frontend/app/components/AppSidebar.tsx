@@ -7,7 +7,6 @@ import { NavLink } from "react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { useState } from "react";
-import type { ChatUser } from "~/types";
 import clsx from "clsx";
 
 export function AppSidebar({ users, currentUserId, ...props }: React.ComponentProps<typeof Sidebar> & { currentUserId: string | undefined; users: ChatUser[] }) {
