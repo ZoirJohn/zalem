@@ -69,7 +69,7 @@ export const useMessagesStore = create<MessagesStore>()((set, get) => ({
     },
     setMessages: (message: Message) => {
         set({ loading: true });
-        set({ messages: [message, ...get().messages] });
+        set({ messages: [ ...get().messages,message] });
         set({ loading: false });
     },
 }));
