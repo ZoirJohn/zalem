@@ -57,7 +57,6 @@ class API_REQUEST {
         return fetchData(this.ENDPOINT.users);
     }
     async conversations(receiverId: string) {
-        console.log(this.ENDPOINT.conversations + "/" + receiverId);
         return fetchData(this.ENDPOINT.conversations + "/" + receiverId);
     }
     async messages(conversation_id: string) {

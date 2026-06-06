@@ -12,7 +12,6 @@ export default function ChatRoom() {
     const isIntentionalClose = useRef(false);
     const { userId } = useParams();
     const { messages, fetchMessages, setMessages } = useMessagesStore();
-    console.log(messages);
     useEffect(() => {
         const connect = () => {
             const ws = new WebSocket(import.meta.env.VITE_WS_URL);
