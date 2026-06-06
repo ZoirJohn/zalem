@@ -4,11 +4,11 @@ import ChatForm from "./ChatForm";
 import { useParams } from "react-router";
 
 interface Message {
+    content: string;
+    conversation_id: string;
+    created_at: string;
     id: string;
-    message: string;
-    event: string;
-    senderId: string;
-    receiverId: string;
+    sender_id: string;
 }
 
 export default function ChatRoom() {
@@ -18,6 +18,7 @@ export default function ChatRoom() {
     const isIntentionalClose = useRef(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const { userId } = useParams();
+    
 
     useEffect(() => {
         const connect = () => {
@@ -86,7 +87,7 @@ export default function ChatRoom() {
                     ) : (
                         messages.map((message) => (
                             <div key={message.id} className="rounded-[12px] border border-claude-hairline bg-claude-surface-card px-4 py-3 text-sm whitespace-pre-wrap text-claude-ink">
-                                {message.message}
+                                {message.content}
                             </div>
                         ))
                     )}

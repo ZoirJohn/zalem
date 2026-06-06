@@ -16,6 +16,12 @@ export class Message {
     sender!: User;
 
     @Column()
+    conversation_id!: string;
+
+    @Column()
+    sender_id!: string;
+
+    @Column()
     content!: string;
 
     @CreateDateColumn()

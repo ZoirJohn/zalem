@@ -7,6 +7,7 @@ import { AppDataSource } from "../../data-source";
 import { Repository } from "typeorm";
 import { Message } from "../entities/message.entity";
 import ConversationService from "../services/conversation.service";
+import { MessageDTO } from "../dtos/message.dto";
 
 export class ChatController {
     private messages: Repository<Message> = AppDataSource.getRepository(Message);
@@ -73,7 +74,7 @@ export class ChatController {
         });
         const savedMessage = await this.messages.save(newMessage);
 
-        const payload = JSON.stringify(savedMessage);
+        const payload = JSON.stringify(new MessageDTO(savedMessage));
         if (recipient !== sender) {
             recipient?.send(payload);
         }

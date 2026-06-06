@@ -22,7 +22,7 @@ class ConversationService {
     async getMessages(userId: string, receiverId: string) {
         const messages = await this.messagesRepo
             .createQueryBuilder("m")
-            .select(["m.id", "m.content", "m.created_at"])
+            .select(["m.id", "m.content", "m.created_at", "m.conversation_id", "m.sender_id"])
             .innerJoin("m.conversation", "c")
             .innerJoin("c.participants", "p1", "p1.user_id = :userId", {
                 userId,
@@ -31,7 +31,7 @@ class ConversationService {
                 receiverId,
             })
             .getMany();
-        return messages
+        return messages;
     }
 }
 
