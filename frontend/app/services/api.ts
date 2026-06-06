@@ -15,7 +15,7 @@ class API_REQUEST {
         messages: this.API_URL + "/messages",
     };
     async register(email: string, password: string, username: string) {
-        const body = JSON.stringify({ email, password, displayName: username });
+        const body = JSON.stringify({ email, password, display_name: username });
         const res = await fetch(this.ENDPOINT.register, {
             body,
             headers: { "Content-Type": "application/json" },
