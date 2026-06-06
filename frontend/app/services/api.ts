@@ -11,6 +11,7 @@ class API_REQUEST {
         me: this.API_URL + "/users/me",
         users: this.API_URL + "/users",
 
+        conversations: this.API_URL + "/conversations",
         messages: this.API_URL + "/messages",
     };
     async register(email: string, password: string, username: string) {
@@ -55,8 +56,12 @@ class API_REQUEST {
     async users() {
         return fetchData(this.ENDPOINT.users);
     }
-    async messages(receiverId: string) {
-        return fetchData(this.ENDPOINT.messages + "/" + receiverId);
+    async conversations(receiverId: string) {
+        console.log(this.ENDPOINT.conversations + "/" + receiverId);
+        return fetchData(this.ENDPOINT.conversations + "/" + receiverId);
+    }
+    async messages(conversation_id: string) {
+        return fetchData(this.ENDPOINT.messages + "/" + conversation_id);
     }
 }
 

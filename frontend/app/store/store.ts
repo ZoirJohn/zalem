@@ -52,10 +52,10 @@ export const useMessagesStore = create<MessagesStore>()((set, get) => ({
     messages: [],
     loading: false,
     error: "",
-    fetchMessages: async (receiverId: string) => {
+    fetchMessages: async (conversation_id: string) => {
         set({ loading: true });
         try {
-            const data = await api.messages(receiverId);
+            const data = await api.messages(conversation_id);
             set({ messages: data.messages });
         } catch (error) {
             if (error instanceof Error) {

@@ -23,6 +23,6 @@ router.get("/users", isAuthenticated, (req, res, next) => UserController.users(r
 router.get("/users/me", isAuthenticated, (req, res, next) => UserController.me(req, res, next));
 
 router.get("/conversations/:receiverId", isAuthenticated,  ConversationController.getConversation);
-router.get("/messages/:receiverId", isAuthenticated,  ConversationController.getMessages);
+router.get("/messages/:conversation_id", isAuthenticated,  ConversationController.getMessages);
 
 export default router;

@@ -1,8 +1,9 @@
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import ChatForm from "./ChatForm";
 import { useParams } from "react-router";
 import { useMessagesStore } from "~/store/store";
+import { api } from "~/services/api";
 
 export default function ChatRoom() {
     const retryDelay = useRef(5000);
@@ -10,8 +11,8 @@ export default function ChatRoom() {
     const scrollable = useRef<HTMLDivElement>(null);
     const isIntentionalClose = useRef(false);
     const { userId } = useParams();
-    const { messages, fetchMessages,setMessages } = useMessagesStore();
-
+    const { messages, fetchMessages, setMessages } = useMessagesStore();
+    console.log(messages);
     useEffect(() => {
         const connect = () => {
             const ws = new WebSocket(import.meta.env.VITE_WS_URL);
@@ -59,7 +60,7 @@ export default function ChatRoom() {
     }, [userId]);
 
     useEffect(() => {
-        fetchMessages(userId as string);
+        api.conversations(userId as string).then((data)=>fetchMessages(data.conversation.id));
     }, [userId]);
 
     const sendMessage = (message: string) => {
