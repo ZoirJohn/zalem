@@ -1,9 +1,10 @@
 import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
+import { useCurrentUserStore, useUsersStore } from "~/store/store";
 
 
 export default function Home() {
-	const user = null
+	const {user} = useCurrentUserStore()
 	const projects = [
 		{
 			title: "Chat",
