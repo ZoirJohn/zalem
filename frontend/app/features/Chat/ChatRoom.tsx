@@ -23,9 +23,9 @@ export default function ChatRoom() {
     const scrollable = useRef<HTMLDivElement>(null);
     const isIntentionalClose = useRef(false);
     useEffect(() => {
-            scrollable.current?.scrollIntoView({
-                behavior: "instant",
-            });
+        scrollable.current?.scrollIntoView({
+            behavior: "instant",
+        });
     }, [loading]);
     useEffect(() => {
         const connect = () => {
@@ -84,6 +84,7 @@ export default function ChatRoom() {
             }),
         );
     };
+
     if (loading) {
         return (
             <section className="flex h-[calc(100dvh-65px)] flex-col gap-4 bg-claude-canvas px-4 py-5 sm:px-6">
@@ -91,6 +92,7 @@ export default function ChatRoom() {
             </section>
         );
     }
+
     return (
         <section className="flex h-[calc(100dvh-65px)] flex-col gap-4 bg-claude-canvas px-4 py-5 sm:px-6">
             <ScrollArea className="relative flex h-[calc(100%-180px)] w-full flex-col rounded-[16px] bg-claude-canvas">
@@ -104,7 +106,12 @@ export default function ChatRoom() {
                         messages[currentConversationId]?.map((message) => (
                             <div
                                 key={message.id}
-                                className="rounded-[12px] border border-claude-hairline bg-claude-surface-card px-4 py-3 text-sm whitespace-pre-wrap text-claude-ink"
+                                className={
+                                    "rounded-[12px] border border-claude-hairline bg-claude-surface-card px-4 py-3 text-sm whitespace-pre-wrap text-claude-ink " +
+                                    (message.sender_id !== userId
+                                        ? "self-end"
+                                        : "self-start")
+                                }
                             >
                                 {message.content}
                             </div>
