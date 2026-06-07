@@ -1,6 +1,6 @@
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useParams } from "react-router";
 import { AppSidebar } from "~/components/AppSidebar";
 import {
@@ -27,16 +27,15 @@ export default function Chat() {
     const { user } = useCurrentUserStore();
     const { users } = useUsersStore();
     const { userId } = useParams();
-    const { messages, setMessages, fetchMessages } = useMessagesStore();
-
+    const { messages, setMessages, fetchMessages ,setCurrentConversationId,currentConversationId,loading} = useMessagesStore();
     useEffect(() => {
         if (userId) {
-            api.conversations(userId as string).then((data) =>
-                fetchMessages(data.conversation.id),
-            );
+            api.conversations(userId as string).then((data) => {
+                 setCurrentConversationId(data.conversation.id);
+                fetchMessages(data.conversation.id);
+            });
         }
     }, [userId]);
-
     return (
         <ProtectedRoute redirectTo="/login" shouldUserExist="Y">
             <SidebarProvider
@@ -74,7 +73,7 @@ export default function Chat() {
                             </BreadcrumbList>
                         </Breadcrumb>
                     </header>
-                    <Outlet context={{ userId, messages, setMessages }} />
+                    <Outlet context={{ userId, messages, setMessages ,currentConversationId,loading}} />
                 </SidebarInset>
             </SidebarProvider>
         </ProtectedRoute>

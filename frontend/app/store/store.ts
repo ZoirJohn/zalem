@@ -49,14 +49,21 @@ export const useCurrentUserStore = create<CurrentUserStore>()((set, get) => ({
 }));
 
 export const useMessagesStore = create<MessagesStore>()((set, get) => ({
-    messages: [],
+    messages: {},
+    currentConversationId: "",
     loading: false,
     error: "",
     fetchMessages: async (conversation_id: string) => {
+        if (conversation_id in get().messages) return;
         set({ loading: true });
         try {
             const data = await api.messages(conversation_id);
-            set({ messages: data.messages });
+            set({
+                messages: {
+                    [conversation_id]: data.messages,
+                    ...get().messages,
+                },
+            });
         } catch (error) {
             if (error instanceof Error) {
                 const error = "Error fetching messages";
@@ -69,7 +76,18 @@ export const useMessagesStore = create<MessagesStore>()((set, get) => ({
     },
     setMessages: (message: Message) => {
         set({ loading: true });
-        set({ messages: [ ...get().messages,message] });
+        set({
+            messages: {
+                ...get().messages,
+                [get().currentConversationId]: [
+                    ...get().messages[get().currentConversationId],
+                    message,
+                ],
+            },
+        });
         set({ loading: false });
+    },
+    setCurrentConversationId: (conversation_id: string) => {
+        set({ currentConversationId: conversation_id });
     },
 }));

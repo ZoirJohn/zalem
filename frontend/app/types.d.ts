@@ -34,9 +34,11 @@ interface CurrentUserStore {
 }
 
 interface MessagesStore {
-    messages: Message[];
+    messages: Record<string, Message[]>;
     loading: boolean;
     error: string;
-    fetchMessages: (receiverId: string) => Promise<void>;
-    setMessages: (message: Message) => void;
+    currentConversationId:string
+    fetchMessages: (conversation_id: string) => Promise<void>;
+    setMessages: (message: Message, conversation_id: string) => void;
+    setCurrentConversationId: (conversation_id: string) => void;
 }

@@ -8,17 +8,25 @@ export default function ChatRoom() {
         userId,
         messages,
         setMessages,
+        currentConversationId,
+        loading,
     }: {
         userId: string;
-        messages: Message[];
-        setMessages: (message: Message) => void;
+        messages: Record<string, Message[]>;
+        setMessages: (message: Message, conversation_id: string) => void;
+        currentConversationId: string;
+        loading: boolean;
     } = useOutletContext();
 
     const retryDelay = useRef(5000);
     const socket = useRef<WebSocket | null>(null);
     const scrollable = useRef<HTMLDivElement>(null);
     const isIntentionalClose = useRef(false);
-
+    useEffect(() => {
+            scrollable.current?.scrollIntoView({
+                behavior: "instant",
+            });
+    }, [loading]);
     useEffect(() => {
         const connect = () => {
             const ws = new WebSocket(import.meta.env.VITE_WS_URL);
@@ -27,7 +35,7 @@ export default function ChatRoom() {
             });
             ws.addEventListener("message", (e) => {
                 const data = JSON.parse(e.data);
-                setMessages(data);
+                setMessages(data, currentConversationId);
 
                 requestAnimationFrame(() => {
                     scrollable.current?.scrollIntoView({
@@ -76,17 +84,24 @@ export default function ChatRoom() {
             }),
         );
     };
+    if (loading) {
+        return (
+            <section className="flex h-[calc(100dvh-65px)] flex-col gap-4 bg-claude-canvas px-4 py-5 sm:px-6">
+                Loading...
+            </section>
+        );
+    }
     return (
         <section className="flex h-[calc(100dvh-65px)] flex-col gap-4 bg-claude-canvas px-4 py-5 sm:px-6">
             <ScrollArea className="relative flex h-[calc(100%-180px)] w-full flex-col rounded-[16px] bg-claude-canvas">
                 <ScrollBar orientation="vertical" />
                 <div className="flex flex-col gap-3 px-5 py-4">
-                    {messages.length === 0 ? (
+                    {messages[currentConversationId]?.length === 0 ? (
                         <div className="absolute top-1/2 left-1/2 w-50 -translate-1/2 rounded-[12px] border border-claude-hairline bg-claude-surface-card text-center text-sm text-claude-body">
                             No messages yet
                         </div>
                     ) : (
-                        messages.map((message) => (
+                        messages[currentConversationId]?.map((message) => (
                             <div
                                 key={message.id}
                                 className="rounded-[12px] border border-claude-hairline bg-claude-surface-card px-4 py-3 text-sm whitespace-pre-wrap text-claude-ink"
