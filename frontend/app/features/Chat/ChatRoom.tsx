@@ -1,17 +1,24 @@
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { useEffect, useId, useRef, useState } from "react";
 import ChatForm from "./ChatForm";
-import { useParams } from "react-router";
-import { useMessagesStore } from "~/store/store";
-import { api } from "~/services/api";
+import { useOutletContext, useParams } from "react-router";
 
 export default function ChatRoom() {
+    const {
+        userId,
+        messages,
+        setMessages,
+    }: {
+        userId: string;
+        messages: Message[];
+        setMessages: (message: Message) => void;
+    } = useOutletContext();
+
     const retryDelay = useRef(5000);
     const socket = useRef<WebSocket | null>(null);
     const scrollable = useRef<HTMLDivElement>(null);
     const isIntentionalClose = useRef(false);
-    const { userId } = useParams();
-    const { messages, fetchMessages, setMessages } = useMessagesStore();
+
     useEffect(() => {
         const connect = () => {
             const ws = new WebSocket(import.meta.env.VITE_WS_URL);
@@ -24,7 +31,7 @@ export default function ChatRoom() {
 
                 requestAnimationFrame(() => {
                     scrollable.current?.scrollIntoView({
-                        behavior: "smooth",
+                        behavior: "instant",
                     });
                 });
             });
@@ -58,10 +65,6 @@ export default function ChatRoom() {
         };
     }, [userId]);
 
-    useEffect(() => {
-        api.conversations(userId as string).then((data)=>fetchMessages(data.conversation.id));
-    }, [userId]);
-
     const sendMessage = (message: string) => {
         if (socket.current?.readyState !== WebSocket.OPEN) return;
         socket.current?.send(
@@ -79,10 +82,15 @@ export default function ChatRoom() {
                 <ScrollBar orientation="vertical" />
                 <div className="flex flex-col gap-3 px-5 py-4">
                     {messages.length === 0 ? (
-                        <div className="absolute top-1/2 left-1/2 w-50 -translate-1/2 rounded-[12px] border border-claude-hairline bg-claude-surface-card text-center text-sm text-claude-body">No messages yet</div>
+                        <div className="absolute top-1/2 left-1/2 w-50 -translate-1/2 rounded-[12px] border border-claude-hairline bg-claude-surface-card text-center text-sm text-claude-body">
+                            No messages yet
+                        </div>
                     ) : (
                         messages.map((message) => (
-                            <div key={message.id} className="rounded-[12px] border border-claude-hairline bg-claude-surface-card px-4 py-3 text-sm whitespace-pre-wrap text-claude-ink">
+                            <div
+                                key={message.id}
+                                className="rounded-[12px] border border-claude-hairline bg-claude-surface-card px-4 py-3 text-sm whitespace-pre-wrap text-claude-ink"
+                            >
                                 {message.content}
                             </div>
                         ))
