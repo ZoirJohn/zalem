@@ -27,11 +27,18 @@ export default function Chat() {
     const { user } = useCurrentUserStore();
     const { users } = useUsersStore();
     const { userId } = useParams();
-    const { messages, setMessages, fetchMessages ,setCurrentConversationId,currentConversationId,loading} = useMessagesStore();
+    const {
+        messages,
+        setMessages,
+        fetchMessages,
+        setCurrentConversationId,
+        currentConversationId,
+        loading,
+    } = useMessagesStore();
     useEffect(() => {
         if (userId) {
             api.conversations(userId as string).then((data) => {
-                 setCurrentConversationId(data.conversation.id);
+                setCurrentConversationId(data.conversation.id);
                 fetchMessages(data.conversation.id);
             });
         }
@@ -62,18 +69,22 @@ export default function Chat() {
                                 </BreadcrumbItem>
                                 <BreadcrumbItem>
                                     <BreadcrumbPage className="text-base font-medium text-claude-ink capitalize">
-                                        {user?.id === userId
-                                            ? "Saved messages"
-                                            : users.find((u) => u.id === userId)
-                                                  ?.display_name ||
-                                              "Anonymous user"}
+                                        {user?.id===userId?"Saved messages":users.find(user=>user.id===userId)?.display_name||"Anonymous user"}
                                     </BreadcrumbPage>
                                 </BreadcrumbItem>
                                 <SidebarTrigger className="text-claude-ink" />
                             </BreadcrumbList>
                         </Breadcrumb>
                     </header>
-                    <Outlet context={{ userId, messages, setMessages ,currentConversationId,loading}} />
+                    <Outlet
+                        context={{
+                            userId,
+                            messages,
+                            setMessages,
+                            currentConversationId,
+                            loading,
+                        }}
+                    />
                 </SidebarInset>
             </SidebarProvider>
         </ProtectedRoute>
