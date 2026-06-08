@@ -20,6 +20,12 @@ type Pages = {
   "/signup": {
     params: {};
   };
+  "/profile": {
+    params: {};
+  };
+  "/users": {
+    params: {};
+  };
   "/chat": {
     params: {};
   };
@@ -33,7 +39,7 @@ type Pages = {
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/login" | "/signup" | "/chat" | "/chat/:userId";
+    page: "/" | "/login" | "/signup" | "/profile" | "/users" | "/chat" | "/chat/:userId";
   };
   "../pages/Home.tsx": {
     id: "../pages/Home";
@@ -46,6 +52,14 @@ type RouteFiles = {
   "../pages/Signup.tsx": {
     id: "../pages/Signup";
     page: "/signup";
+  };
+  "../pages/Profile.tsx": {
+    id: "../pages/Profile";
+    page: "/profile";
+  };
+  "../pages/Users.tsx": {
+    id: "../pages/Users";
+    page: "/users";
   };
   "../pages/Chat.tsx": {
     id: "../pages/Chat";
@@ -66,6 +80,8 @@ type RouteModules = {
   "../pages/Home": unknown;
   "../pages/Login": unknown;
   "../pages/Signup": unknown;
+  "../pages/Profile": unknown;
+  "../pages/Users": unknown;
   "../pages/Chat": unknown;
   "../features/Chat/Main": unknown;
   "../features/Chat/ChatRoom": unknown;

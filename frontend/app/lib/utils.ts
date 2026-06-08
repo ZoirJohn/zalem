@@ -13,3 +13,10 @@ export async function fetchData(url: string) {
 	}
 	return data;
 }
+
+export function formatDate(value: string) {
+	return new Intl.DateTimeFormat("en", {
+		dateStyle: "medium",
+		timeStyle: "short",
+	}).format(new Date(value));
+}
