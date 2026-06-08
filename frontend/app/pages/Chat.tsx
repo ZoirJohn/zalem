@@ -1,7 +1,7 @@
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useEffect, useState } from "react";
-import { Link, Outlet, useLocation, useParams } from "react-router";
+import { Link, Outlet, useLocation, useNavigate, useParams } from "react-router";
 import { AppSidebar } from "~/components/AppSidebar";
 import {
     Breadcrumb,
@@ -24,9 +24,10 @@ import {
 } from "~/store/store";
 
 export default function Chat() {
-    const { user } = useCurrentUserStore();
+    const { user, setUser } = useCurrentUserStore();
     const { users } = useUsersStore();
     const { userId } = useParams();
+    const navigate = useNavigate();
     const {
         messages,
         setMessages,
@@ -43,6 +44,13 @@ export default function Chat() {
             });
         }
     }, [userId]);
+
+    const handleLogout = async () => {
+        await api.logout();
+        setUser(null);
+        navigate("/login", { replace: true });
+    };
+
     return (
         <ProtectedRoute redirectTo="/login" shouldUserExist="Y">
             <SidebarProvider
@@ -52,7 +60,7 @@ export default function Chat() {
                     } as React.CSSProperties
                 }
             >
-                <AppSidebar user={user as User} users={users} />
+                <AppSidebar user={user as User} users={users} onLogout={handleLogout} />
                 <SidebarInset>
                     <header className="sticky top-0 z-10 flex shrink-0 items-center gap-2 border-b border-claude-hairline bg-claude-canvas px-6 py-4">
                         <Breadcrumb className="flex-1">
@@ -69,7 +77,12 @@ export default function Chat() {
                                 </BreadcrumbItem>
                                 <BreadcrumbItem>
                                     <BreadcrumbPage className="text-base font-medium text-claude-ink capitalize">
-                                        {user?.id===userId?"Saved messages":users.find(user=>user.id===userId)?.display_name||"Anonymous user"}
+                                        {user?.id === userId
+                                            ? "Saved messages"
+                                            : users.find(
+                                                  (user) => user.id === userId,
+                                              )?.display_name ||
+                                              "Anonymous user"}
                                     </BreadcrumbPage>
                                 </BreadcrumbItem>
                                 <SidebarTrigger className="text-claude-ink" />

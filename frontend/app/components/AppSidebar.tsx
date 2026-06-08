@@ -20,10 +20,12 @@ import clsx from "clsx";
 export function AppSidebar({
     users,
     user,
+    onLogout,
     ...props
 }: React.ComponentProps<typeof Sidebar> & {
     user: User;
     users: ChatUser[];
+    onLogout: () => void | Promise<void>;
 }) {
     const { isMobile, open, setOpenMobile } = useSidebar();
     const [value, setValue] = useState("");
@@ -69,6 +71,11 @@ export function AppSidebar({
             </SidebarHeader>
             <SidebarContent className="bg-claude-canvas">
                 <SidebarGroup className="p-0">
+                    <Button
+                        onClick={() => void onLogout()}
+                    >
+                        Logout
+                    </Button>
                     <SidebarGroupContent>
                         <NavLink
                             to={"/chat" + `/${user.id}`}

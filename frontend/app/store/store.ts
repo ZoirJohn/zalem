@@ -30,12 +30,16 @@ export const useCurrentUserStore = create<CurrentUserStore>()((set, get) => ({
     loading: false,
     error: "",
 
+    setUser: (user: User | null) => {
+        set({ user });
+    },
+
     fetchCurrentUser: async () => {
         if (get().user) return;
         set({ loading: true });
         try {
             const data = await api.me();
-            set({ user: data.user });
+            get().setUser(data.user);
         } catch (error) {
             if (error instanceof Error) {
                 const error = "Error fetching users";

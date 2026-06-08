@@ -5,6 +5,7 @@ class API_REQUEST {
     private ENDPOINT = {
         register: this.API_URL + "/auth/register",
         login: this.API_URL + "/auth/login",
+        logout: this.API_URL + "/auth/logout",
         loginWithGoogle: this.API_URL + "/auth/google",
         loginWithFacebook: this.API_URL + "/auth/facebook",
 
@@ -15,7 +16,11 @@ class API_REQUEST {
         messages: this.API_URL + "/messages",
     };
     async register(email: string, password: string, username: string) {
-        const body = JSON.stringify({ email, password, display_name: username });
+        const body = JSON.stringify({
+            email,
+            password,
+            display_name: username,
+        });
         const res = await fetch(this.ENDPOINT.register, {
             body,
             headers: { "Content-Type": "application/json" },
@@ -61,6 +66,12 @@ class API_REQUEST {
     }
     async messages(conversation_id: string) {
         return fetchData(this.ENDPOINT.messages + "/" + conversation_id);
+    }
+    async logout() {
+        await fetch(this.ENDPOINT.logout, {
+            method: "POST",
+            credentials: "include",
+        });
     }
 }
 

@@ -31,6 +31,7 @@ interface CurrentUserStore {
     loading: boolean;
     error: string;
     fetchCurrentUser: () => Promise<void>;
+    setUser: (user: User | null) => void;
 }
 
 interface MessagesStore {

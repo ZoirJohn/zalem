@@ -13,7 +13,7 @@ router.get("/health", (req, res, next) => {
 });
 router.post("/auth/register", body("email").isEmail(), body("display_name").isLength({ min: 1, max: 255 }), body("password").isLength({ min: 7, max: 32 }), validate, AuthController.register);
 router.post("/auth/login", body("email").isEmail(), validate, AuthController.login);
-router.post("/logout", AuthController.logout);
+router.post("/auth/logout", AuthController.logout);
 router.get("/auth/google", AuthController.loginWithGoogle);
 router.get("/auth/google/callback", AuthController.loginWithGoogleCallback);
 router.get("/auth/facebook", AuthController.loginWithFacebook);
