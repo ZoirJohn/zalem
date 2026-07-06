@@ -1,7 +1,7 @@
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect,  useRef, } from "react";
 import ChatForm from "./ChatForm";
-import { useOutletContext, useParams } from "react-router";
+import { useOutletContext,  } from "react-router";
 
 export default function ChatRoom() {
     const {

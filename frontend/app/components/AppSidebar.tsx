@@ -69,13 +69,8 @@ export function AppSidebar({
                     className="h-9 rounded-[8px] border border-claude-hairline bg-claude-canvas text-sm text-claude-ink placeholder:text-claude-muted focus-visible:border-claude-primary focus-visible:ring-2 focus-visible:ring-claude-primary/20"
                 />
             </SidebarHeader>
-            <SidebarContent className="bg-claude-canvas">
-                <SidebarGroup className="p-0">
-                    <Button
-                        onClick={() => void onLogout()}
-                    >
-                        Logout
-                    </Button>
+            <SidebarContent className="bg-claude-canvas ">
+                <SidebarGroup className="p-0 mb-auto">
                     <SidebarGroupContent>
                         <NavLink
                             to={"/chat" + `/${user.id}`}
@@ -162,7 +157,16 @@ export function AppSidebar({
                             </NavLink>
                         ))}
                     </SidebarGroupContent>
+
                 </SidebarGroup>
+               <div className="flex items-center justify-center p-4">
+                   <Button
+                       onClick={() => void onLogout()}
+                       className="grow"
+                   >
+                       Logout
+                   </Button>
+               </div>
             </SidebarContent>
         </Sidebar>
     );

@@ -12,7 +12,7 @@ class UserController {
         try {
             const users = await UsersService.getUsers(req.user?.id as string);
 
-            return res.json({ users });
+        return res.json({ users });
         } catch (error) {
             next(error);
         }
